@@ -7,29 +7,45 @@
   <style>
     * { box-sizing: border-box; margin: 0; }
     body {
-background: radial-gradient(circle at top, #3a3a3a 0%, #111 55%, #000 100%);
-background-attachment: fixed; color: #fff;      font-family: system-ui, sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; padding: 24px;
+      min-height: 100vh; color: #fff;
+      font-family: system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.88)),
+        url("fondo.jpg") center / cover no-repeat;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 56px 24px 40px;
     }
-    h1 { font-size: 1.6rem; margin-bottom: 8px; }
-    p { color: #aaa; margin-bottom: 32px; }
-    a {
-      display: block; width: 100%; max-width: 320px;
+    h1 { font-size: 3rem; font-weight: 800; letter-spacing: 2px; line-height: 1; }
+    .sub { color: #f5b800; font-weight: 600; letter-spacing: 3px; font-size: .85rem; margin: 10px 0 28px; }
+    .info { width: 100%; max-width: 340px; margin-bottom: 28px; font-size: .95rem; line-height: 1.6; }
+    .info b { display: block; color: #f5b800; font-size: .75rem; letter-spacing: 2px; margin-top: 14px; }
+    .btn {
+      display: block; width: 100%; max-width: 340px;
       padding: 16px; margin-bottom: 12px;
       border: 1px solid #fff; border-radius: 14px;
       color: #fff; text-decoration: none; text-align: center;
-      font-weight: 600; letter-spacing: 1px;
+      font-weight: 700; letter-spacing: 1px;
     }
-    a:hover { background: #fff; color: #111; }
+    .btn.main { background: #f5b800; border-color: #f5b800; color: #111; }
+    .btn:hover { background: #fff; color: #111; }
   </style>
 </head>
 <body>
   <h1>THE SIX</h1>
-  <p>Reserva tu hora</p>
-  <a href="https://wa.me/56900000000?text=Hola%20The%20Six%2C%20quiero%20reservar%20una%20hora">RESERVAR HORA</a>
-  <a href="https://instagram.com/tuusuario">INSTAGRAM</a>
-  <a href="tel:+56900000000">CONTACTO</a>
-  <a href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg">UBICACIÓN</a>
+  <p class="sub">BARBERÍA</p>
+
+  <div class="info">
+    <b>HORARIO</b>
+    Lunes a sábado · 10:00 – 20:00<br>Domingo cerrado
+    <b>SERVICIOS</b>
+    Cortes, fade, barba y afeitado con navaja
+    <b>DIRECCIÓN</b>
+    PON_AQUI_LA_DIRECCION
+  </div>
+
+  <a class="btn main" href="PEGA_TU_LINK_DE_WHATSAPP">RESERVAR HORA</a>
+  <a class="btn" href="PEGA_TU_LINK_DE_MAPS">CÓMO LLEGAR</a>
+  <a class="btn" href="PEGA_TU_LINK_DE_INSTAGRAM">INSTAGRAM</a>
+  <a class="btn" href="tel:+569XXXXXXXX">LLAMAR</a>
 </body>
 </html>
