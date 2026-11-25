@@ -1,90 +1,547 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>THE SIX</title>
+  <meta name="theme-color" content="#111111">
+
+  <title>THE SIX | Barbería</title>
+  <meta name="description" content="THE SIX Barbería. Reserva tu hora, conoce nuestros servicios y encuentra cómo llegar.">
+
   <style>
-    * { box-sizing: border-box; margin: 0; }
-    body {
-      min-height: 100vh; color: #fff;
-      font-family: system-ui, sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.88)),
-        url("fondo.jpg.jpeg") center / cover no-repeat;
-      display: flex; flex-direction: column; align-items: center;
-      padding: 56px 24px 40px;
+    /* =========================
+       1. CONFIGURACIÓN GENERAL
+    ========================== */
+
+    :root {
+      --negro: #111111;
+      --amarillo: #f5b800;
+      --blanco: #ffffff;
+      --gris: rgba(255,255,255,.68);
+      --borde: rgba(255,255,255,.16);
     }
-    .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor;
-          stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    h1 { font-size: 3rem; font-weight: 800; letter-spacing: 2px; line-height: 1; }
-    .sub { color: #f5b800; font-weight: 600; letter-spacing: 3px; font-size: .85rem; margin: 10px 0 16px; }
-    .estado { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
-              border: 1px solid rgba(255,255,255,.35); border-radius: 999px;
-              font-size: .8rem; margin-bottom: 26px; }
-    .estado::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #888; }
-    .estado.on::before { background: #3ddc84; box-shadow: 0 0 8px #3ddc84; }
-    .estado.off::before { background: #ff5a5a; }
-    .info { width: 100%; max-width: 340px; margin-bottom: 26px; }
-    .fila { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; line-height: 1.5; font-size: .95rem; }
-    .fila .ic { color: #f5b800; margin-top: 2px; }
-    .fila b { display: block; color: #f5b800; font-size: .72rem; letter-spacing: 2px; margin-bottom: 2px; }
-    .btn { display: flex; align-items: center; justify-content: center; gap: 10px;
-           width: 100%; max-width: 340px; padding: 16px; margin-bottom: 12px;
-           border: 1px solid #fff; border-radius: 14px; color: #fff; text-decoration: none;
-           font-weight: 700; letter-spacing: 1px; transition: transform .15s, background .2s; }
-    .btn.main { background: #f5b800; border-color: #f5b800; color: #111; }
-    .btn:hover { background: #fff; color: #111; }
-    .btn:active { transform: scale(.97); }
-    .anim { animation: subir .6s ease both; animation-delay: calc(var(--i) * .08s); }
-    @keyframes subir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-    @media (prefers-reduced-motion: reduce) { .anim { animation: none; } }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      color: var(--blanco);
+      font-family: Arial, Helvetica, sans-serif;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,.58) 0%,
+          rgba(0,0,0,.78) 55%,
+          rgba(0,0,0,.94) 100%
+        ),
+        url("fondo.jpg.jpeg") center / cover no-repeat fixed;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 20px;
+    }
+
+    /* =========================
+       2. CONTENEDOR PRINCIPAL
+    ========================== */
+
+    .contenedor {
+      width: 100%;
+      max-width: 430px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* =========================
+       3. ENCABEZADO
+    ========================== */
+
+    .encabezado {
+      margin-bottom: 26px;
+      animation: aparecer .8s ease both;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 12vw, 4rem);
+      font-weight: 900;
+      letter-spacing: 5px;
+      line-height: 1;
+    }
+
+    .subtitulo {
+      color: var(--amarillo);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      margin-top: 12px;
+    }
+
+    .linea {
+      width: 42px;
+      height: 3px;
+      background: var(--amarillo);
+      margin: 20px auto 0;
+      border-radius: 10px;
+    }
+
+    /* =========================
+       4. ESTADO DEL LOCAL
+    ========================== */
+
+    .estado {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 16px;
+      margin-bottom: 32px;
+
+      border: 1px solid var(--borde);
+      border-radius: 30px;
+      background: rgba(255,255,255,.05);
+
+      font-size: .78rem;
+      letter-spacing: .5px;
+      color: var(--gris);
+    }
+
+    .estado::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #888;
+    }
+
+    .estado.on::before {
+      background: #35d47b;
+      box-shadow: 0 0 10px rgba(53,212,123,.6);
+    }
+
+    .estado.off::before {
+      background: #ff5c5c;
+      box-shadow: 0 0 8px rgba(255,92,92,.35);
+    }
+
+    /* =========================
+       5. INFORMACIÓN
+    ========================== */
+
+    .informacion {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 30px;
+      padding: 22px;
+
+      background: rgba(15,15,15,.55);
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .fila {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+
+      color: var(--gris);
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+
+    .fila:last-child {
+      margin-bottom: 0;
+    }
+
+    .fila svg {
+      width: 21px;
+      height: 21px;
+      flex: none;
+      color: var(--amarillo);
+      margin-top: 3px;
+    }
+
+    .fila b {
+      display: block;
+      margin-bottom: 3px;
+
+      color: var(--amarillo);
+      font-size: .7rem;
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       6. BOTONES
+    ========================== */
+
+    .botones {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      width: 100%;
+      min-height: 57px;
+      padding: 16px;
+
+      color: var(--blanco);
+      background: rgba(15,15,15,.55);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 12px;
+
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+
+      transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+      animation: subir .65s ease both;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .btn svg {
+      width: 19px;
+      height: 19px;
+      flex: none;
+    }
+
+    .btn.principal {
+      color: var(--negro);
+      background: var(--amarillo);
+      border-color: var(--amarillo);
+      box-shadow: 0 5px 22px rgba(245,184,0,.12);
+    }
+
+    .btn:hover {
+      color: var(--negro);
+      background: var(--blanco);
+      border-color: var(--blanco);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px rgba(0,0,0,.25);
+    }
+
+    .btn.principal:hover {
+      background: #ffd044;
+      border-color: #ffd044;
+    }
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--amarillo);
+      outline-offset: 4px;
+    }
+
+    /* =========================
+       7. PIE DE PÁGINA
+    ========================== */
+
+    .footer {
+      margin-top: 32px;
+      color: rgba(255,255,255,.42);
+      font-size: .68rem;
+      letter-spacing: 2px;
+      animation: aparecer 1s ease both;
+      animation-delay: .8s;
+    }
+
+    .footer span {
+      color: var(--amarillo);
+    }
+
+    /* =========================
+       8. ANIMACIONES
+    ========================== */
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes subir {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       9. ADAPTACIÓN A CELULARES
+    ========================== */
+
+    @media (max-width: 480px) {
+      body {
+        padding: 38px 20px 30px;
+        background-attachment: scroll;
+      }
+
+      .informacion {
+        padding: 19px;
+      }
+
+      .btn {
+        min-height: 55px;
+      }
+    }
+
+    /* Respetar preferencias de movimiento */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <h1 class="anim" style="--i:0">THE SIX</h1>
-  <p class="sub anim" style="--i:1">BARBERÍA</p>
-  <div id="estado" class="estado anim" style="--i:2"></div>
 
-  <div class="info">
-    <div class="fila anim" style="--i:3">
-      <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      <div><b>HORARIO</b>Lunes a sábado · 10:00 – 20:00<br>Domingo cerrado</div>
-    </div>
-    <div class="fila anim" style="--i:4">
-      <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-      <div><b>SERVICIOS</b>Cortes, fade, barba y afeitado con navaja</div>
-    </div>
-    <div class="fila anim" style="--i:5">
-      <svg class="ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <div><b>DIRECCIÓN</b>PON_AQUI_LA_DIRECCION</div>
-    </div>
-  </div>
+  <main class="contenedor">
 
-  <a class="btn main anim" style="--i:6" href="PEGA_TU_LINK_DE_WHATSAPP">
-    <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    RESERVAR HORA
-  </a>
-  <a class="btn anim" style="--i:7" href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg">
-    <svg class="ic" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-    CÓMO LLEGAR
-  </a>
-  <a class="btn anim" style="--i:8" href="PEGA_TU_LINK_DE_INSTAGRAM">
-    <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-    INSTAGRAM
-  </a>
-  <a class="btn anim" style="--i:9" href="tel:+569XXXXXXXX">
-    <svg class="ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-    LLAMAR
-  </a>
+    <!-- ENCABEZADO -->
+
+    <header class="encabezado">
+      <h1>THE SIX</h1>
+      <p class="subtitulo">BARBERÍA</p>
+      <div class="linea"></div>
+    </header>
+
+    <!-- ESTADO DEL LOCAL -->
+
+    <div id="estado" class="estado" aria-live="polite">
+      Consultando horario...
+    </div>
+
+    <!-- INFORMACIÓN -->
+
+    <section class="informacion" aria-label="Información de la barbería">
+
+      <div class="fila">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+
+        <div>
+          <b>HORARIO</b>
+          Lunes a sábado · 10:00 – 20:00<br>
+          Domingo cerrado
+        </div>
+      </div>
+
+      <div class="fila">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <circle cx="6" cy="6" r="3"/>
+          <circle cx="6" cy="18" r="3"/>
+          <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>
+        </svg>
+
+        <div>
+          <b>SERVICIOS</b>
+          Cortes, fade, barba y afeitado con navaja
+        </div>
+      </div>
+
+      <div class="fila">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+
+        <div>
+          <b>DIRECCIÓN</b>
+          PON_AQUI_LA_DIRECCION
+        </div>
+      </div>
+
+    </section>
+
+    <!-- BOTONES DE ACCIÓN -->
+
+    <nav class="botones" aria-label="Acciones de THE SIX">
+
+      <a class="btn principal"
+        style="--delay:.15s"
+        href="PEGA_TU_LINK_DE_WHATSAPP"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+
+        RESERVAR HORA
+      </a>
+
+      <a class="btn"
+        style="--delay:.25s"
+        href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <path d="M22 2L11 13"/>
+          <path d="M22 2L15 22l-4-9-9-4z"/>
+        </svg>
+
+        CÓMO LLEGAR
+      </a>
+
+      <a class="btn"
+        style="--delay:.35s"
+        href="PEGA_TU_LINK_DE_INSTAGRAM"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/>
+        </svg>
+
+        INSTAGRAM
+      </a>
+
+      <a class="btn"
+        style="--delay:.45s"
+        href="tel:+569XXXXXXXX">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+          19.79 19.79 0 0 1-8.63-3.07
+          19.5 19.5 0 0 1-6-6
+          19.79 19.79 0 0 1-3.07-8.67
+          A2 2 0 0 1 4.11 2h3
+          a2 2 0 0 1 2 1.72
+          12.84 12.84 0 0 0 .7 2.81
+          2 2 0 0 1-.45 2.11L8.09 9.91
+          a16 16 0 0 0 6 6l1.27-1.27
+          a2 2 0 0 1 2.11-.45
+          12.84 12.84 0 0 0 2.81.7
+          A2 2 0 0 1 22 16.92z"/>
+        </svg>
+
+        LLAMAR
+      </a>
+
+      <a class="btn"
+        style="--delay:.55s"
+        href="PEGA_TU_LINK_DE_RESEÑAS_DE_GOOGLE"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linejoin="round">
+          <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4
+          1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/>
+        </svg>
+
+        VALORAR EN GOOGLE
+      </a>
+
+    </nav>
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer class="footer">
+      <span>THE SIX</span> · BARBERÍA
+    </footer>
+
+  </main>
+
+  <!-- ESTADO AUTOMÁTICO -->
 
   <script>
-    const ahora = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
-    const dia = ahora.getDay(), hora = ahora.getHours() + ahora.getMinutes() / 60;
-    const abierto = dia !== 0 && hora >= 10 && hora < 20;
-    const el = document.getElementById("estado");
-    el.textContent = abierto ? "Abierto ahora" : "Cerrado ahora";
-    el.classList.add(abierto ? "on" : "off");
+    function actualizarEstado() {
+      const formato = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Santiago",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+      });
+
+      const partes = formato.formatToParts(new Date());
+
+      const obtener = tipo =>
+        partes.find(parte => parte.type === tipo)?.value;
+
+      const dia = obtener("weekday");
+      const hora = Number(obtener("hour"));
+      const minutos = Number(obtener("minute"));
+
+      const diasAbiertos = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+      const abierto =
+        diasAbiertos.includes(dia) &&
+        (hora > 10 || (hora === 10 && minutos >= 0)) &&
+        hora < 20;
+
+      const estado = document.getElementById("estado");
+
+      estado.textContent = abierto
+        ? "Abierto ahora"
+        : "Cerrado ahora";
+
+      estado.classList.toggle("on", abierto);
+      estado.classList.toggle("off", !abierto);
+    }
+
+    actualizarEstado();
+    setInterval(actualizarEstado, 60000);
   </script>
+
 </body>
 </html>
