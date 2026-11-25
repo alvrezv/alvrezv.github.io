@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta name="theme-color" content="#111111">
+  <meta name="description" content="THE SIX Barbería. Reserva tu hora, conoce nuestros servicios y encuentra nuestra ubicación.">
 
   <title>THE SIX | Barbería</title>
-  <meta name="description" content="THE SIX Barbería. Reserva tu hora, conoce nuestros servicios y encuentra cómo llegar.">
 
   <style>
     /* =========================
@@ -15,11 +16,11 @@
     ========================== */
 
     :root {
-      --negro: #111111;
-      --amarillo: #f5b800;
-      --blanco: #ffffff;
-      --gris: rgba(255,255,255,.68);
-      --borde: rgba(255,255,255,.16);
+      --black: #111111;
+      --white: #ffffff;
+      --yellow: #f5b800;
+      --grey: #b8b8b8;
+      --surface: rgba(20, 20, 20, 0.72);
     }
 
     * {
@@ -35,22 +36,24 @@
     body {
       min-height: 100vh;
       min-height: 100svh;
-      color: var(--blanco);
+      padding: 58px 22px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
 
       background:
         linear-gradient(
           180deg,
-          rgba(0,0,0,.58) 0%,
-          rgba(0,0,0,.78) 55%,
-          rgba(0,0,0,.94) 100%
+          rgba(0,0,0,.62) 0%,
+          rgba(0,0,0,.76) 45%,
+          rgba(0,0,0,.93) 100%
         ),
-        url("fondo.jpg.jpeg") center / cover no-repeat fixed;
+        url("fondo.jpg.jpeg") center center / cover fixed no-repeat;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 48px 20px;
+      background-color: var(--black);
     }
 
     /* =========================
@@ -59,43 +62,41 @@
 
     .contenedor {
       width: 100%;
-      max-width: 430px;
+      max-width: 390px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
     }
 
     /* =========================
-       3. ENCABEZADO
+       3. IDENTIDAD DE MARCA
     ========================== */
 
-    .encabezado {
-      margin-bottom: 26px;
-      animation: aparecer .8s ease both;
+    .marca {
+      text-align: center;
+      margin-bottom: 22px;
     }
 
     h1 {
-      font-size: clamp(3rem, 12vw, 4rem);
+      font-size: clamp(2.8rem, 12vw, 3.6rem);
       font-weight: 900;
-      letter-spacing: 5px;
+      letter-spacing: 4px;
       line-height: 1;
     }
 
     .subtitulo {
-      color: var(--amarillo);
-      font-size: .82rem;
+      color: var(--yellow);
+      font-size: .78rem;
       font-weight: 700;
       letter-spacing: 5px;
       margin-top: 12px;
     }
 
     .linea {
-      width: 42px;
-      height: 3px;
-      background: var(--amarillo);
-      margin: 20px auto 0;
-      border-radius: 10px;
+      width: 38px;
+      height: 2px;
+      background: var(--yellow);
+      margin: 19px auto 0;
     }
 
     /* =========================
@@ -106,16 +107,16 @@
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      padding: 9px 16px;
-      margin-bottom: 32px;
+      padding: 8px 15px;
+      margin-bottom: 30px;
 
-      border: 1px solid var(--borde);
-      border-radius: 30px;
-      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 50px;
+      background: rgba(0,0,0,.28);
 
+      color: #eeeeee;
       font-size: .78rem;
-      letter-spacing: .5px;
-      color: var(--gris);
+      letter-spacing: .4px;
     }
 
     .estado::before {
@@ -123,32 +124,30 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #888;
+      background: #888888;
     }
 
     .estado.on::before {
-      background: #35d47b;
-      box-shadow: 0 0 10px rgba(53,212,123,.6);
+      background: #39d98a;
+      box-shadow: 0 0 9px rgba(57,217,138,.6);
     }
 
     .estado.off::before {
-      background: #ff5c5c;
-      box-shadow: 0 0 8px rgba(255,92,92,.35);
+      background: #ff5b5b;
     }
 
     /* =========================
        5. INFORMACIÓN
     ========================== */
 
-    .informacion {
+    .info {
       width: 100%;
-      text-align: left;
-      margin-bottom: 30px;
-      padding: 22px;
+      padding: 21px 20px 7px;
+      margin-bottom: 22px;
 
-      background: rgba(15,15,15,.55);
-      border: 1px solid var(--borde);
+      border: 1px solid rgba(255,255,255,.13);
       border-radius: 16px;
+      background: var(--surface);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     }
@@ -157,43 +156,56 @@
       display: flex;
       align-items: flex-start;
       gap: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 19px;
 
-      color: var(--gris);
+      color: #eeeeee;
       font-size: .9rem;
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
     .fila:last-child {
-      margin-bottom: 0;
+      margin-bottom: 13px;
     }
 
-    .fila svg {
-      width: 21px;
-      height: 21px;
-      flex: none;
-      color: var(--amarillo);
+    .fila .ic {
+      color: var(--yellow);
       margin-top: 3px;
     }
 
     .fila b {
       display: block;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
 
-      color: var(--amarillo);
-      font-size: .7rem;
+      color: var(--yellow);
+      font-size: .68rem;
       letter-spacing: 2px;
     }
 
     /* =========================
-       6. BOTONES
+       6. ICONOS
     ========================== */
 
-    .botones {
+    .ic {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* =========================
+       7. BOTONES
+    ========================== */
+
+    .acciones {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 11px;
     }
 
     .btn {
@@ -201,57 +213,60 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 11px;
 
       width: 100%;
-      min-height: 57px;
-      padding: 16px;
+      min-height: 55px;
+      padding: 15px 18px;
 
-      color: var(--blanco);
-      background: rgba(15,15,15,.55);
-      border: 1px solid rgba(255,255,255,.28);
+      border: 1px solid rgba(255,255,255,.65);
       border-radius: 12px;
 
-      text-decoration: none;
+      color: var(--white);
+      background: rgba(15,15,15,.55);
+
       font-size: .82rem;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.3px;
+      text-decoration: none;
+      text-align: center;
 
       transition:
-        transform .25s ease,
-        background .25s ease,
-        color .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease;
-
-      animation: subir .65s ease both;
-      animation-delay: var(--delay, 0s);
+        transform .22s ease,
+        background-color .22s ease,
+        color .22s ease,
+        border-color .22s ease,
+        box-shadow .22s ease;
     }
 
-    .btn svg {
+    .btn.main {
+      min-height: 58px;
+      color: #111111;
+      background: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .btn .ic {
       width: 19px;
       height: 19px;
-      flex: none;
     }
 
-    .btn.principal {
-      color: var(--negro);
-      background: var(--amarillo);
-      border-color: var(--amarillo);
-      box-shadow: 0 5px 22px rgba(245,184,0,.12);
-    }
+    /* Efectos para computador */
 
-    .btn:hover {
-      color: var(--negro);
-      background: var(--blanco);
-      border-color: var(--blanco);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 22px rgba(0,0,0,.25);
-    }
+    @media (hover: hover) {
+      .btn:not(.main):hover {
+        color: #111111;
+        background: #ffffff;
+        border-color: #ffffff;
+        transform: translateY(-2px);
+      }
 
-    .btn.principal:hover {
-      background: #ffd044;
-      border-color: #ffd044;
+      .btn.main:hover {
+        background: #ffd04a;
+        border-color: #ffd04a;
+        transform: translateY(-2px);
+        box-shadow: 0 7px 20px rgba(245,184,0,.16);
+      }
     }
 
     .btn:active {
@@ -259,45 +274,42 @@
     }
 
     .btn:focus-visible {
-      outline: 3px solid var(--amarillo);
+      outline: 3px solid var(--yellow);
       outline-offset: 4px;
     }
 
     /* =========================
-       7. PIE DE PÁGINA
+       8. PIE DE PÁGINA
     ========================== */
 
     .footer {
       margin-top: 32px;
-      color: rgba(255,255,255,.42);
+      text-align: center;
+      color: rgba(255,255,255,.55);
       font-size: .68rem;
-      letter-spacing: 2px;
-      animation: aparecer 1s ease both;
-      animation-delay: .8s;
+      letter-spacing: 1.5px;
     }
 
     .footer span {
-      color: var(--amarillo);
+      color: var(--yellow);
     }
 
     /* =========================
-       8. ANIMACIONES
+       9. ANIMACIONES
     ========================== */
+
+    .anim {
+      opacity: 0;
+      animation: aparecer .75s cubic-bezier(.22, 1, .36, 1) both;
+      animation-delay: calc(var(--i) * .09s);
+    }
 
     @keyframes aparecer {
       from {
         opacity: 0;
+        transform: translateY(16px);
       }
-      to {
-        opacity: 1;
-      }
-    }
 
-    @keyframes subir {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
       to {
         opacity: 1;
         transform: translateY(0);
@@ -305,34 +317,59 @@
     }
 
     /* =========================
-       9. ADAPTACIÓN A CELULARES
+       10. ADAPTACIÓN A CELULARES
     ========================== */
 
     @media (max-width: 480px) {
       body {
-        padding: 38px 20px 30px;
+        padding: 45px 20px 25px;
         background-attachment: scroll;
       }
 
-      .informacion {
-        padding: 19px;
+      .contenedor {
+        max-width: 390px;
+      }
+
+      .info {
+        padding: 19px 17px 5px;
       }
 
       .btn {
-        min-height: 55px;
+        min-height: 54px;
       }
     }
 
-    /* Respetar preferencias de movimiento */
+    /* Pantallas pequeñas */
+
+    @media (max-width: 360px) {
+      body {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .fila {
+        font-size: .84rem;
+      }
+
+      .btn {
+        font-size: .76rem;
+      }
+    }
+
+    /* Accesibilidad */
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
+      html {
+        scroll-behavior: auto;
+      }
+
+      .anim {
+        opacity: 1;
+        animation: none;
+      }
+
+      .btn {
+        transition: none;
       }
     }
   </style>
@@ -342,9 +379,9 @@
 
   <main class="contenedor">
 
-    <!-- ENCABEZADO -->
+    <!-- IDENTIDAD -->
 
-    <header class="encabezado">
+    <header class="marca anim" style="--i:0">
       <h1>THE SIX</h1>
       <p class="subtitulo">BARBERÍA</p>
       <div class="linea"></div>
@@ -352,17 +389,21 @@
 
     <!-- ESTADO DEL LOCAL -->
 
-    <div id="estado" class="estado" aria-live="polite">
-      Consultando horario...
+    <div
+      id="estado"
+      class="estado anim"
+      style="--i:1"
+      aria-live="polite"
+    >
+      Comprobando horario...
     </div>
 
     <!-- INFORMACIÓN -->
 
-    <section class="informacion" aria-label="Información de la barbería">
+    <section class="info" aria-label="Información de la barbería">
 
-      <div class="fila">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
+      <div class="fila anim" style="--i:2">
+        <svg class="ic" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="9"/>
           <path d="M12 7v5l3 2"/>
         </svg>
@@ -374,12 +415,13 @@
         </div>
       </div>
 
-      <div class="fila">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
+      <div class="fila anim" style="--i:3">
+        <svg class="ic" viewBox="0 0 24 24">
           <circle cx="6" cy="6" r="3"/>
           <circle cx="6" cy="18" r="3"/>
-          <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+          <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
         </svg>
 
         <div>
@@ -388,10 +430,9 @@
         </div>
       </div>
 
-      <div class="fila">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
-          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+      <div class="fila anim" style="--i:4">
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
 
@@ -405,115 +446,107 @@
 
     <!-- BOTONES DE ACCIÓN -->
 
-    <nav class="botones" aria-label="Acciones de THE SIX">
+    <nav class="acciones" aria-label="Acciones de THE SIX">
 
-      <a class="btn principal"
-        style="--delay:.15s"
+      <!-- RESERVAR -->
+
+      <a
+        class="btn main anim"
+        style="--i:5"
         href="PEGA_TU_LINK_DE_WHATSAPP"
         target="_blank"
-        rel="noopener noreferrer">
-
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
+        rel="noopener noreferrer"
+      >
+        <svg class="ic" viewBox="0 0 24 24">
           <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <path d="M16 2v4M8 2v4M3 10h18"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
-
         RESERVAR HORA
       </a>
 
-      <a class="btn"
-        style="--delay:.25s"
-        href="https://maps.app.goo.gl/QcA4viac1UcGJSWr6?g_st=ic"
+      <!-- UBICACIÓN -->
+
+      <a
+        class="btn anim"
+        style="--i:6"
+        href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg"
         target="_blank"
-        rel="noopener noreferrer">
-
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
-          <path d="M22 2L11 13"/>
-          <path d="M22 2L15 22l-4-9-9-4z"/>
+        rel="noopener noreferrer"
+      >
+        <svg class="ic" viewBox="0 0 24 24">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
         </svg>
-
         CÓMO LLEGAR
       </a>
 
-      <a class="btn"
-        style="--delay:.35s"
+      <!-- INSTAGRAM -->
+
+      <a
+        class="btn anim"
+        style="--i:7"
         href="PEGA_TU_LINK_DE_INSTAGRAM"
         target="_blank"
-        rel="noopener noreferrer">
-
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8">
+        rel="noopener noreferrer"
+      >
+        <svg class="ic" viewBox="0 0 24 24">
           <rect x="2" y="2" width="20" height="20" rx="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
         </svg>
-
         INSTAGRAM
       </a>
 
-      <a class="btn"
-        style="--delay:.45s"
-        href="tel:+569XXXXXXXX">
+      <!-- GOOGLE -->
 
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2
-          19.79 19.79 0 0 1-8.63-3.07
-          19.5 19.5 0 0 1-6-6
-          19.79 19.79 0 0 1-3.07-8.67
-          A2 2 0 0 1 4.11 2h3
-          a2 2 0 0 1 2 1.72
-          12.84 12.84 0 0 0 .7 2.81
-          2 2 0 0 1-.45 2.11L8.09 9.91
-          a16 16 0 0 0 6 6l1.27-1.27
-          a2 2 0 0 1 2.11-.45
-          12.84 12.84 0 0 0 2.81.7
-          A2 2 0 0 1 22 16.92z"/>
+      <a
+        class="btn anim"
+        style="--i:8"
+        href="PEGA_TU_LINK_DE_RESEÑAS_DE_GOOGLE"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="ic" viewBox="0 0 24 24">
+          <polygon points="12 2 15.1 8.3 22 9.3 17 14.2 18.2 21 12 17.7 5.8 21 7 14.2 2 9.3 8.9 8.3 12 2"/>
         </svg>
-
-        LLAMAR
+        VALORAR EN GOOGLE
       </a>
 
-      <a class="btn"
-        style="--delay:.55s"
-        href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg"
-        target="_blank"
-        rel="noopener noreferrer">
+      <!-- LLAMAR -->
 
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linejoin="round">
-          <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4
-          1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/>
+      <a
+        class="btn anim"
+        style="--i:9"
+        href="tel:+569XXXXXXXX"
+      >
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
-
-        VALORAR EN GOOGLE
+        LLAMAR
       </a>
 
     </nav>
 
     <!-- PIE DE PÁGINA -->
 
-    <footer class="footer">
-      <span>THE SIX</span> · BARBERÍA
+    <footer class="footer anim" style="--i:10">
+      <p>THE SIX <span>·</span> BARBERÍA</p>
     </footer>
 
   </main>
 
-  <!-- ESTADO AUTOMÁTICO -->
+  <!-- JAVASCRIPT: HORARIO -->
 
   <script>
     function actualizarEstado() {
-      const formato = new Intl.DateTimeFormat("en-US", {
+      const partes = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Santiago",
         weekday: "short",
         hour: "2-digit",
         minute: "2-digit",
         hourCycle: "h23"
-      });
-
-      const partes = formato.formatToParts(new Date());
+      }).formatToParts(new Date());
 
       const obtener = tipo =>
         partes.find(parte => parte.type === tipo)?.value;
@@ -522,12 +555,13 @@
       const hora = Number(obtener("hour"));
       const minutos = Number(obtener("minute"));
 
-      const diasAbiertos = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const minutosDelDia = hora * 60 + minutos;
 
+      const esDomingo = dia === "Sun";
       const abierto =
-        diasAbiertos.includes(dia) &&
-        (hora > 10 || (hora === 10 && minutos >= 0)) &&
-        hora < 20;
+        !esDomingo &&
+        minutosDelDia >= 600 &&
+        minutosDelDia < 1200;
 
       const estado = document.getElementById("estado");
 
