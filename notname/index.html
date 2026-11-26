@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NOTNAME | Tecnología NFC</title>
-  <meta name="description" content="Placas NFC y QR para negocios. Tus clientes acercan el celular y ven tu carta, reservan o te escriben.">
+  <meta name="description" content="Placas NFC para negocios. Tus clientes acercan el celular y ven tus servicios, reservan o te escriben.">
   <style>
     :root { --fondo:#0b0b0b; --fondo2:#141414; --texto:#f2f2f0; --suave:#9a9a96; --linea:rgba(255,255,255,.14); --acento:#f2f2f0; }
     * { box-sizing: border-box; margin: 0; }
@@ -42,7 +42,7 @@
     .onda { transform-box: fill-box; transform-origin: center; animation: onda 2.4s ease-out infinite; opacity: 0; }
     .onda:nth-of-type(2) { animation-delay: .8s; }
     .onda:nth-of-type(3) { animation-delay: 1.6s; }
-    @keyframes onda { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+    @keyframes onda { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(3); opacity: 0; } }
     .flota { animation: flota 5s ease-in-out infinite; }
     @keyframes flota { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
@@ -71,9 +71,15 @@
     .card .problema { color: var(--suave); font-size: .95rem; margin-bottom: 18px; }
     .card h3 { font-size: 1.3rem; margin-bottom: 8px; }
     .card p { color: var(--suave); }
-    .pasos { counter-reset: paso; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .ico { width: 44px; height: 44px; fill: none; stroke: var(--texto); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 20px; display: block; }
+    .card:hover .ico { animation: salta .5s ease; }
+    @keyframes salta { 50% { transform: translateY(-6px) scale(1.08); } }
+
+    /* PASOS */
+    .pasos { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); counter-reset: paso; }
     .paso { counter-increment: paso; padding-top: 20px; border-top: 1px solid var(--linea); }
     .paso::before { content: "0" counter(paso); font-weight: 800; font-size: 2.4rem; color: var(--suave); display: block; margin-bottom: 8px; }
+    .ilus { width: 100%; max-width: 170px; height: auto; fill: none; stroke: var(--texto); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; margin: 12px 0 16px; }
     .paso h3 { margin-bottom: 6px; }
     .paso p { color: var(--suave); }
 
@@ -86,19 +92,18 @@
     .nota { color: var(--suave); font-size: .9rem; margin-top: 18px; }
     .foto img { width: 100%; border-radius: 20px; display: block; }
 
-    /* PESTAÑAS */
-    .tabs { display: inline-flex; border: 1px solid var(--linea); border-radius: 999px; padding: 4px; margin-bottom: 28px; }
-    .tab { background: none; border: 0; color: var(--suave); padding: 10px 24px; border-radius: 999px; font-weight: 700; font-family: inherit; font-size: .95rem; cursor: pointer; transition: background .2s, color .2s; }
-    .tab.act { background: var(--texto); color: #0b0b0b; }
-    .panel { display: none; }
-    .panel.act { display: block; animation: aparece .4s ease; }
-    @keyframes aparece { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .panel h3 { font-size: 1.6rem; margin-bottom: 8px; }
-    .panel > p { color: var(--suave); max-width: 520px; margin-bottom: 20px; }
-    .panel ul { list-style: none; padding: 0; margin-bottom: 28px; }
-    .panel li { padding: 10px 0 10px 28px; position: relative; border-bottom: 1px solid var(--linea); max-width: 520px; }
-    .panel li::before { content: "✓"; position: absolute; left: 0; font-weight: 800; }
-    .precio { color: var(--suave); font-size: .9rem; margin-bottom: 20px; }
+    /* GALERÍA */
+    .galeria .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .galeria figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 20px; display: block; transition: transform .4s; }
+    .galeria figure { overflow: hidden; border-radius: 20px; }
+    .galeria figure:hover img { transform: scale(1.04); }
+
+    /* PACK */
+    .pack ul { list-style: none; padding: 0; margin-top: 16px; }
+    .pack li { padding: 10px 0 10px 28px; position: relative; border-bottom: 1px solid var(--linea); color: var(--suave); }
+    .pack li::before { content: "✓"; position: absolute; left: 0; font-weight: 800; color: var(--texto); }
+    .pack .mas { font-size: 2rem; font-weight: 800; color: var(--suave); text-align: center; }
+    .precio { color: var(--suave); margin: 28px 0 20px; }
 
     /* FAQ */
     details { border-bottom: 1px solid var(--linea); padding: 20px 0; max-width: 720px; }
@@ -142,7 +147,7 @@
       <ul>
         <li><a href="#que-hacemos">Qué hacemos</a></li>
         <li><a href="#producto">El producto</a></li>
-        <li><a href="#pack-servicio">Pack y servicio</a></li>
+        <li><a href="#pack">Pack NFC</a></li>
         <li><a href="#faq">Preguntas</a></li>
       </ul>
       <a class="btn small" data-wa="Hola, quiero saber más de NotName">Escríbenos</a>
@@ -153,35 +158,28 @@
     <div class="wrap">
       <div class="rev">
         <h1>Tu negocio, a un toque.</h1>
-        <p>Una placa para tu mostrador. Tus clientes acercan el celular y ven tu carta, reservan o te escriben. Sin descargar nada.</p>
+        <p>Una placa para tu mostrador. Tus clientes acercan el celular y ven tus servicios, reservan o te escriben. Sin descargar nada.</p>
         <div class="acciones">
-          <a class="btn" data-wa="Hola, quiero cotizar una placa NFC para mi negocio">Cotizar por WhatsApp</a>
+          <a class="btn" data-wa="Hola, quiero cotizar el Pack NFC para mi negocio">Cotizar por WhatsApp</a>
           <button class="btn ghost" id="probar" aria-expanded="false">Acerca el celular</button>
         </div>
       </div>
 
       <div class="visual rev">
-        <svg class="placa flota" viewBox="0 0 300 300" role="img" aria-label="Placa NFC con código QR">
+        <svg class="placa flota" viewBox="0 0 300 300" role="img" aria-label="Placa NFC">
           <rect x="20" y="20" width="260" height="260" rx="34" fill="#141414" stroke="#f2f2f0" stroke-width="2"/>
-          <text x="150" y="150" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="58" letter-spacing="2" fill="#f2f2f0">MENU</text>
-          <text x="150" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" letter-spacing="4" fill="#9a9a96">TAP HERE</text>
-          <!-- chip NFC -->
-          <circle class="onda" cx="72" cy="232" r="14" fill="none" stroke="#f2f2f0" stroke-width="2"/>
-          <circle class="onda" cx="72" cy="232" r="14" fill="none" stroke="#f2f2f0" stroke-width="2"/>
-          <circle class="onda" cx="72" cy="232" r="14" fill="none" stroke="#f2f2f0" stroke-width="2"/>
-          <circle cx="72" cy="232" r="14" fill="#0b0b0b" stroke="#f2f2f0" stroke-width="2"/>
-          <path d="M66 226 q8 6 0 12 M71 223 q12 9 0 18" fill="none" stroke="#f2f2f0" stroke-width="2" stroke-linecap="round"/>
-          <!-- QR estilizado -->
-          <g fill="#f2f2f0">
-            <rect x="196" y="206" width="14" height="14"/><rect x="214" y="206" width="6" height="6"/><rect x="224" y="206" width="14" height="14"/>
-            <rect x="196" y="224" width="6" height="6"/><rect x="206" y="228" width="10" height="10"/><rect x="224" y="226" width="6" height="12"/>
-            <rect x="196" y="240" width="14" height="6"/><rect x="214" y="240" width="6" height="6"/><rect x="232" y="240" width="6" height="6"/>
-          </g>
+          <text x="150" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="58" letter-spacing="2" fill="#f2f2f0">MENU</text>
+          <text x="150" y="165" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" letter-spacing="4" fill="#9a9a96">TAP HERE</text>
+          <circle class="onda" cx="150" cy="224" r="16" fill="none" stroke="#f2f2f0" stroke-width="2"/>
+          <circle class="onda" cx="150" cy="224" r="16" fill="none" stroke="#f2f2f0" stroke-width="2"/>
+          <circle class="onda" cx="150" cy="224" r="16" fill="none" stroke="#f2f2f0" stroke-width="2"/>
+          <circle cx="150" cy="224" r="16" fill="#0b0b0b" stroke="#f2f2f0" stroke-width="2"/>
+          <path d="M143 217 q9 7 0 14 M149 213 q14 11 0 22" fill="none" stroke="#f2f2f0" stroke-width="2" stroke-linecap="round"/>
         </svg>
         <div class="phone" id="telefono" aria-hidden="true">
           <b>TU NEGOCIO</b>
           <small>Abierto ahora</small>
-          <span>VER CARTA</span>
+          <span>VER SERVICIOS</span>
           <span>RESERVAR HORA</span>
           <span>CÓMO LLEGAR</span>
         </div>
@@ -191,10 +189,10 @@
 
   <div class="cinta" aria-hidden="true">
     <div>
-      <span>NFC</span><span>·</span><span>QR</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span>
-      <span>NFC</span><span>·</span><span>QR</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span>
-      <span>NFC</span><span>·</span><span>QR</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span>
-      <span>NFC</span><span>·</span><span>QR</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span>
+      <span>NFC</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span><span>TUS SERVICIOS</span><span>·</span>
+      <span>NFC</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span><span>TUS SERVICIOS</span><span>·</span>
+      <span>NFC</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span><span>TUS SERVICIOS</span><span>·</span>
+      <span>NFC</span><span>·</span><span>SIN APPS</span><span>·</span><span>UN TOQUE</span><span>·</span><span>TUS SERVICIOS</span><span>·</span>
     </div>
   </div>
 
@@ -203,16 +201,19 @@
       <h2 class="rev">Sea cual sea el problema, hay un toque que lo resuelve.</h2>
       <div class="tarjetas">
         <div class="card rev">
+          <svg class="ico" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="4"/><path d="M17 16h14M17 24h14M17 32h8"/></svg>
           <p class="problema">Tu carta en papel se gasta y se desactualiza.</p>
-          <h3>Carta digital</h3>
-          <p>Tu menú siempre al día, en el celular de tu cliente. Cambias un precio y se actualiza solo.</p>
+          <h3>Servicios y carta digital</h3>
+          <p>Tu oferta siempre al día, en el celular de tu cliente. Cambias un precio y se actualiza solo.</p>
         </div>
         <div class="card rev">
+          <svg class="ico" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="32" rx="5"/><path d="M6 20h36M16 6v8M32 6v8"/></svg>
           <p class="problema">Te piden la hora por mensaje todo el día.</p>
           <h3>Reservas</h3>
           <p>Un toque abre WhatsApp con el mensaje ya escrito. Tu cliente solo lo envía.</p>
         </div>
         <div class="card rev">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M24 42s14-12 14-23a14 14 0 0 0-28 0c0 11 14 23 14 23z"/><circle cx="24" cy="19" r="5"/></svg>
           <p class="problema">Tus clientes no encuentran tu local.</p>
           <h3>Cómo llegar</h3>
           <p>Abre el mapa con la ruta lista. Además: horario, Instagram y teléfono en el mismo lugar.</p>
@@ -225,9 +226,18 @@
     <div class="wrap">
       <h2 class="rev">Cómo funciona, en simple.</h2>
       <div class="pasos">
-        <div class="paso rev"><h3>Pones la placa</h3><p>En tu mostrador, tu mesa o tu vitrina.</p></div>
-        <div class="paso rev"><h3>Tu cliente acerca el celular</h3><p>O escanea el código QR de la placa.</p></div>
-        <div class="paso rev"><h3>Se abre tu página</h3><p>Con todo lo que necesita para elegir, reservar o escribirte.</p></div>
+        <div class="paso rev">
+          <svg class="ilus" viewBox="0 0 160 100"><path d="M14 84h132"/><rect x="48" y="34" width="64" height="44" rx="9"/><circle cx="80" cy="62" r="6"/><path d="M76 56q4 3 0 6"/></svg>
+          <h3>Pones la placa</h3><p>En tu mostrador, tu mesa o tu vitrina.</p>
+        </div>
+        <div class="paso rev">
+          <svg class="ilus" viewBox="0 0 160 100"><rect x="16" y="54" width="52" height="34" rx="8"/><rect x="98" y="12" width="36" height="64" rx="9" transform="rotate(-8 116 44)"/><path d="M76 62q8-8 0-18M86 66q14-14 0-34"/></svg>
+          <h3>Tu cliente acerca el celular</h3><p>Sin apps, sin escanear nada.</p>
+        </div>
+        <div class="paso rev">
+          <svg class="ilus" viewBox="0 0 160 100"><rect x="56" y="6" width="48" height="88" rx="10"/><rect x="65" y="28" width="30" height="11" rx="5"/><rect x="65" y="45" width="30" height="11" rx="5"/><rect x="65" y="62" width="30" height="11" rx="5"/></svg>
+          <h3>Se abre tu página</h3><p>Con todo lo que necesita para elegir, reservar o escribirte.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -239,7 +249,6 @@
         <ul class="specs">
           <li><span>Material</span><span>PLA, impresa en 3D</span></li>
           <li><span>Chip</span><span>NFC NTAG215</span></li>
-          <li><span>Respaldo</span><span>Código QR impreso</span></li>
           <li><span>Celulares</span><span>iPhone y Android</span></li>
           <li><span>Hecha en</span><span>Viña del Mar, Chile</span></li>
         </ul>
@@ -251,51 +260,55 @@
     </div>
   </section>
 
-  <section id="pack-servicio">
+  <section class="galeria" id="galeria">
     <div class="wrap">
-      <h2 class="rev">Dos formas de empezar.</h2>
-      <div class="tabs rev" role="tablist">
-        <button class="tab act" data-p="p-pack" role="tab">Pack NFC</button>
-        <button class="tab" data-p="p-servicio" role="tab">Servicio</button>
-      </div>
-
-      <div class="panel act" id="p-pack">
-        <h3>Pack NFC</h3>
-        <p>Tu placa lista para poner en el mostrador.</p>
-        <ul>
-          <li>Placa NFC en PLA impresa en 3D</li>
-          <li>Chip NTAG215 grabado con tu link</li>
-          <li>Código QR de respaldo</li>
-        </ul>
-        <p class="precio">Precio: consultar por WhatsApp.</p>
-        <a class="btn" data-wa="Hola, quiero cotizar el Pack NFC">Pedir el pack</a>
-      </div>
-
-      <div class="panel" id="p-servicio">
-        <h3>Servicio</h3>
-        <p>Nos encargamos de tu página, para que tú te dediques a tu negocio.</p>
-        <ul>
-          <li>Creamos tu página con tu nombre, colores y fotos</li>
-          <li>Carta o servicios, horario, ubicación, WhatsApp e Instagram</li>
-          <li>Hacemos los cambios que necesites, sin cambiar la placa</li>
-        </ul>
-        <p class="precio">Precio: consultar por WhatsApp.</p>
-        <a class="btn" data-wa="Hola, quiero cotizar el servicio de página NFC">Cotizar el servicio</a>
+      <h2 class="rev">Así se ve.</h2>
+      <div class="grid">
+        <figure class="rev"><img src="galeria-1.jpg" alt="NotName en un negocio" onerror="this.parentElement.remove()"></figure>
+        <figure class="rev"><img src="galeria-2.jpg" alt="Placa NFC NotName" onerror="this.parentElement.remove()"></figure>
+        <figure class="rev"><img src="galeria-3.jpg" alt="Placa NFC en uso" onerror="this.parentElement.remove()"></figure>
       </div>
     </div>
   </section>
 
-  <section class="alt" id="faq">
+  <section class="alt pack" id="pack">
+    <div class="wrap">
+      <h2 class="rev">Pack NFC: la placa y tu página, todo en uno.</h2>
+      <div class="tarjetas">
+        <div class="card rev">
+          <svg class="ico" viewBox="0 0 48 48"><rect x="8" y="8" width="32" height="32" rx="8"/><circle cx="24" cy="30" r="4"/><path d="M19 22q5 4 10 0"/></svg>
+          <h3>Placa NFC</h3>
+          <ul>
+            <li>Impresa en 3D con PLA</li>
+            <li>Chip NTAG215 grabado con tu link</li>
+          </ul>
+        </div>
+        <div class="card rev">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M20 28l8-8M17 31a6 6 0 0 1 0-8l5-5a6 6 0 0 1 8 0M31 17a6 6 0 0 1 0 8l-5 5a6 6 0 0 1-8 0"/></svg>
+          <h3>Link directo a tus servicios</h3>
+          <ul>
+            <li>Tu página con servicios o carta, horario y ubicación</li>
+            <li>WhatsApp e Instagram a un toque</li>
+            <li>Cambios cuando los necesites, sin cambiar la placa</li>
+          </ul>
+        </div>
+      </div>
+      <p class="precio rev">Precio: consultar por WhatsApp.</p>
+      <a class="btn rev" data-wa="Hola, quiero cotizar el Pack NFC">Pedir el Pack NFC</a>
+    </div>
+  </section>
+
+  <section id="faq">
     <div class="wrap">
       <h2 class="rev">Preguntas frecuentes.</h2>
-      <details class="rev"><summary>¿Mis clientes necesitan una app?</summary><p>No. Basta con acercar el celular a la placa o escanear el QR con la cámara.</p></details>
-      <details class="rev"><summary>¿Funciona con iPhone y Android?</summary><p>Sí, con la mayoría de los celulares modernos. Si alguno no lee NFC, usa el código QR.</p></details>
+      <details class="rev"><summary>¿Mis clientes necesitan una app?</summary><p>No. Basta con acercar el celular a la placa.</p></details>
+      <details class="rev"><summary>¿Funciona con iPhone y Android?</summary><p>Sí, con la mayoría de los celulares modernos. Los muy antiguos o sin NFC no la leen.</p></details>
       <details class="rev"><summary>¿Puedo cambiar la información después?</summary><p>Sí. La placa abre tu página, y esa página se puede actualizar sin tocar la placa.</p></details>
       <details class="rev"><summary>¿Qué es un chip NTAG215?</summary><p>Es un chip NFC pequeño y muy usado, con espacio de sobra para guardar tu link.</p></details>
     </div>
   </section>
 
-  <section class="cierre" id="contacto">
+  <section class="alt cierre" id="contacto">
     <div class="wrap">
       <h2 class="rev">¿Probamos con tu negocio?</h2>
       <a class="btn" data-wa="Hola, quiero probar NotName en mi negocio">Escríbenos por WhatsApp</a>
@@ -313,7 +326,7 @@
   </footer>
 
   <script>
-    // 1) CAMBIA SOLO ESTE NÚMERO: código de Chile 56 + tu número, sin espacios ni +
+    // CAMBIA SOLO ESTE NÚMERO: código de Chile 56 + tu número, sin espacios ni +
     const WA = "https://wa.me/569XXXXXXXX";
 
     document.querySelectorAll("[data-wa]").forEach(a => {
@@ -328,19 +341,17 @@
       btn.setAttribute("aria-expanded", on);
     });
 
-    // Pestañas Pack / Servicio
-    document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(x => x.classList.remove("act"));
-      document.querySelectorAll(".panel").forEach(p => p.classList.remove("act"));
-      t.classList.add("act");
-      document.getElementById(t.dataset.p).classList.add("act");
-    }));
-
     // Aparecer al hacer scroll
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
     }), { threshold: .15 });
     document.querySelectorAll(".rev").forEach(el => io.observe(el));
+
+    // Si no hay fotos en la galería, se oculta la sección
+    window.addEventListener("load", () => {
+      const g = document.getElementById("galeria");
+      if (g && !g.querySelector("figure")) g.remove();
+    });
   </script>
 </body>
 </html>
