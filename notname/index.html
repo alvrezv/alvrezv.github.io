@@ -122,6 +122,29 @@
     .chip { display: flex; align-items: center; gap: 8px; border: 1px solid var(--linea); border-radius: 999px; padding: 6px 14px 6px 8px; font-size: .9rem; }
     .chip i { display: block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); }
 
+    .colores .btn { margin-top: 16px; }
+
+    /* DISEÑADOR 3D */
+    .disena { display: grid; gap: 28px; align-items: start; }
+    .visor { position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 3;
+             background: radial-gradient(120% 100% at 50% 35%, #dcd9d3 0%, #bdb9b2 100%); }
+    .visor canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+    .visor canvas:active { cursor: grabbing; }
+    .visor canvas:focus-visible { outline: 2px solid #0b0b0b; outline-offset: -4px; }
+    .pista { position: absolute; left: 16px; bottom: 14px; font-size: .8rem; color: #4a4843; pointer-events: none; }
+    .visor .btn { position: absolute; right: 14px; bottom: 12px; background: #0b0b0b; color: #f2f2f0; border-color: #0b0b0b; }
+    .visor .btn:hover { background: transparent; color: #0b0b0b; }
+    .grupo { margin-bottom: 22px; }
+    .grupo h3 { font-size: 1rem; margin-bottom: 12px; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+    .sw { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); cursor: pointer; padding: 0; transition: transform .15s; }
+    .sw:hover { transform: scale(1.1); }
+    .sw[aria-pressed="true"] { outline: 2px solid var(--texto); outline-offset: 3px; }
+    .resumen { color: var(--suave); margin: 4px 0 18px; }
+    .resumen b { color: var(--texto); }
+    .panel .fila { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .panel .nota { margin-top: 14px; }
+
     /* LÍNEA DE TIEMPO */
     .linea { list-style: none; padding: 0; counter-reset: hito; }
     .hito { counter-increment: hito; position: relative; margin-left: 12px; padding: 0 0 32px 44px; border-left: 1px solid var(--linea); }
@@ -160,6 +183,7 @@
     @media (min-width: 820px) {
       .hero .wrap { grid-template-columns: 1.1fr .9fr; }
       .producto { grid-template-columns: 1fr 1fr; }
+      .disena { grid-template-columns: 1.3fr .7fr; }
       .linea { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
       .hito { margin-left: 0; padding: 44px 0 0; border-left: 0; border-top: 1px solid var(--linea); }
       .hito:last-child { border-top-color: var(--linea); }
@@ -167,7 +191,7 @@
       .placa { width: 320px; height: 320px; }
       .phone { width: 190px; right: 0; }
     }
-    @media (max-width: 640px) { nav ul { display: none; } }
+    @media (max-width: 640px) { nav ul { display: none; } .visor { aspect-ratio: 1 / 1; } }
   </style>
 </head>
 <body>
@@ -181,6 +205,7 @@
       <ul>
         <li><a href="#tecnologia">Cómo funciona</a></li>
         <li><a href="#producto">El producto</a></li>
+        <li><a href="#disena">Diséñala</a></li>
         <li><a href="#comprar">Comprar</a></li>
         <li><a href="#faq">Preguntas</a></li>
       </ul>
@@ -194,7 +219,7 @@
         <h1>Tu negocio, a un toque.</h1>
         <p>Una placa para tu mostrador. Tus clientes acercan el celular y ven tus servicios, reservan o te escriben. Sin descargar nada.</p>
         <div class="acciones">
-          <a class="btn" data-wa="Hola, quiero cotizar el Pack NFC para mi negocio">Cotizar por WhatsApp</a>
+          <a class="btn" href="#disena">Diseña y cotiza tu placa</a>
           <button class="btn ghost" id="probar" aria-expanded="false">Acerca el celular</button>
         </div>
       </div>
@@ -311,12 +336,42 @@
         <div class="colores">
           <h3>Colores disponibles</h3>
           <ul class="chips" id="colores"></ul>
+          <a class="btn small" href="#disena">Elige y mezcla tus colores</a>
         </div>
         <p class="nota">El PLA es un plástico de origen vegetal, ideal para uso en interior. Se deforma con calor, así que no la dejes al sol directo ni dentro de un auto.</p>
       </div>
       <figure class="foto rev">
         <img src="placa.jpg" alt="Placa NFC NotName" onerror="this.parentElement.remove()">
       </figure>
+    </div>
+  </section>
+
+  <section id="disena">
+    <div class="wrap">
+      <h2 class="rev">Diseña tu placa.</h2>
+      <div class="disena rev">
+        <div class="visor">
+          <canvas id="visor" role="img" aria-label="Vista 3D de la placa" tabindex="0"></canvas>
+          <span class="pista">Arrastra para girarla</span>
+          <button class="btn small" id="btnTapa" type="button">Cerrar placa</button>
+        </div>
+        <div class="panel">
+          <div class="grupo">
+            <h3>Base</h3>
+            <div class="swatches" id="swBase" role="group" aria-label="Color de la base"></div>
+          </div>
+          <div class="grupo">
+            <h3>Tapa</h3>
+            <div class="swatches" id="swTapa" role="group" aria-label="Color de la tapa"></div>
+          </div>
+          <p class="resumen" id="resumen"></p>
+          <div class="fila">
+            <a class="btn" id="btnCotizar" href="#disena">Cotizar esta placa por WhatsApp</a>
+            <button class="btn ghost small" id="btnSwap" type="button">⇄ Intercambiar</button>
+          </div>
+          <p class="nota">Se abre WhatsApp con tu combinación ya escrita.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -407,6 +462,7 @@
     // 2) Precio del Pack NFC como quieres que se vea (ej: "$14.990"). Vacío = muestra "Consultar precio"
     const PRECIO = "";
     // 3) Colores disponibles: una línea por color ["Nombre", "#código"]. Para agregar uno, copia una línea y cámbiala
+    //    (el código debe tener 6 dígitos: #rrggbb). Estos mismos colores se usan en el diseñador 3D.
     const COLORES = [
       ["Negro", "#2d2f31"],
       ["Blanco", "#e7e4df"],
@@ -432,6 +488,212 @@
       const punto = document.createElement("i"); punto.style.background = hex;
       li.append(punto, nombre); listaColores.append(li);
     });
+
+    // ===== DISEÑADOR 3D (sin librerías: la placa se dibuja en un canvas) =====
+    (function () {
+      const cv = document.getElementById("visor");
+      if (!cv || !cv.getContext || !COLORES.length) return;
+      const ctx = cv.getContext("2d");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const rgbDe = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)); // hex de 6 dígitos: #rrggbb
+
+      // ---- estado ----
+      let iBase = 0, iTapa = Math.min(4, COLORES.length - 1);
+      let yaw = -0.55, pitch = 0.9;       // giro y elevación de la cámara
+      let cierre = 0, objetivo = 0;       // 0 = tapa abierta, 1 = cerrada
+      let auto = !reduce, arrastrando = false, visible = false, raf = 0, last = 0;
+      let W = 0, H = 0, dpr = 1;
+      const col = { base: rgbDe(COLORES[iBase][1]), tapa: rgbDe(COLORES[iTapa][1]) };
+
+      // ---- geometría (unidades arbitrarias: la placa mide 2 de lado) ----
+      const N = 6, S = 2.0, R = 0.30, RIM = 0.08, FLOOR = 0.10, TOP = 0.22, LID = 1.80, LR = 0.24, LT = 0.09;
+      function rr(w, r, n) {              // cuadrado redondeado, antihorario
+        const h = w / 2, pts = [];
+        [[h - r, h - r, 0], [-h + r, h - r, 90], [-h + r, -h + r, 180], [h - r, -h + r, 270]].forEach(([cx, cy, a0]) => {
+          for (let i = 0; i <= n; i++) {
+            const a = (a0 + 90 * i / n) * Math.PI / 180;
+            pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+          }
+        });
+        return pts;
+      }
+      function paredes(poly, z0, z1, signo, tag) {
+        return poly.map((a, i) => {
+          const b = poly[(i + 1) % poly.length], dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1;
+          return { tag, p: [[a[0], a[1], z0], [b[0], b[1], z0], [b[0], b[1], z1], [a[0], a[1], z1]], n: [signo * dy / l, -signo * dx / l, 0] };
+        });
+      }
+      const P = rr(S, R, N), Q = rr(S - 2 * RIM, R - RIM, N), L = rr(LID, LR, N);
+      const piso = { tag: "base", p: Q.map(q => [q[0], q[1], FLOOR]), n: [0, 0, 1] };
+      const tapaTop = { tag: "tapa", p: L.map(q => [q[0], q[1], LT]), n: [0, 0, 1] };
+      const bandeja = [...paredes(P, 0, TOP, 1, "base"), ...paredes(Q, FLOOR, TOP, -1, "base"), piso];
+      P.forEach((a, i) => {               // borde superior (anillo)
+        const j = (i + 1) % P.length, b = P[j], c = Q[j], d = Q[i];
+        bandeja.push({ tag: "base", p: [[a[0], a[1], TOP], [b[0], b[1], TOP], [c[0], c[1], TOP], [d[0], d[1], TOP]], n: [0, 0, 1] });
+      });
+      const tapa = [...paredes(L, 0, LT, 1, "tapa"), tapaTop];
+
+      // ---- detalles dibujados encima: sticker NFC (base) y símbolo NFC (tapa) ----
+      const trazar = pts => { ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); };
+      piso.decal = (to, ppu) => {
+        const cx = -0.12, cy = -0.22, z = FLOOR + 0.004;
+        const circ = (r, n) => Array.from({ length: n }, (_, i) => { const a = i * 2 * Math.PI / n; return to(cx + r * Math.cos(a), cy + r * Math.sin(a), z); });
+        trazar(circ(0.31, 40)); ctx.closePath(); ctx.fillStyle = "#dedcd8"; ctx.fill();
+        ctx.strokeStyle = "#8f8d89"; ctx.lineWidth = Math.max(0.6, ppu * 0.009);
+        [0.25, 0.20, 0.15, 0.10].forEach(r => { trazar(circ(r, 40)); ctx.closePath(); ctx.stroke(); });
+        trazar([[-0.035, -0.035], [0.035, -0.035], [0.035, 0.035], [-0.035, 0.035]].map(([dx, dy]) => to(cx + dx, cy + dy, z)));
+        ctx.closePath(); ctx.fillStyle = "#4a4845"; ctx.fill();
+      };
+      tapaTop.decal = (to, ppu) => {
+        const z = LT + 0.003, c = col.tapa, oscuro = (c[0] * 0.3 + c[1] * 0.59 + c[2] * 0.11) < 120;
+        ctx.strokeStyle = oscuro ? "rgba(255,255,255,.30)" : "rgba(0,0,0,.28)";
+        ctx.lineWidth = Math.max(0.8, ppu * 0.022); ctx.lineCap = "round"; ctx.lineJoin = "round";
+        const ov = Array.from({ length: 40 }, (_, i) => { const a = i * 2 * Math.PI / 40; return to(0.20 + 0.50 * Math.cos(a), -0.36 + 0.30 * Math.sin(a), z); });
+        trazar(ov); ctx.closePath(); ctx.stroke();
+        [0.10, 0.18, 0.26].forEach(r => {
+          trazar(Array.from({ length: 9 }, (_, i) => { const a = (-45 + 90 * i / 8) * Math.PI / 180; return to(-0.06 + r * Math.cos(a), -0.36 + r * Math.sin(a), z); }));
+          ctx.stroke();
+        });
+      };
+
+      // ---- iluminación ----
+      const norm = v => { const l = Math.hypot(...v); return v.map(x => x / l); };
+      const LUZ1 = norm([-0.5, -0.35, 0.8]), LUZ2 = norm([0.6, 0.5, 0.2]);
+      const tono = (rgb, k) => "rgb(" + rgb.map(c => clamp(Math.round(c * k + 8), 0, 255)).join(",") + ")";
+
+      // ---- dibujo ----
+      function dibujar() {
+        if (!W) return;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        const e = cierre * cierre * (3 - 2 * cierre);
+        const cs = Math.cos(yaw), sn = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+        const cxw = lerp(1.05, 0, e), cyw = lerp(0.18, 0, e), D = 16;
+        const ppu = Math.min(W, H * 1.3) / lerp(5.8, 4.4, e);
+        const proj = (x, y, z) => {
+          x -= cxw; y -= cyw;
+          const xr = x * cs - y * sn, yr = x * sn + y * cs;
+          const X = xr, Y = yr * sp + z * cp, Z = -yr * cp + z * sp, s = D / (D - Z);
+          return [W / 2 + X * s * ppu, H * 0.56 - Y * s * ppu, X, Y, Z];
+        };
+        const objetos = [
+          { caras: bandeja, ox: 0, oy: 0, oz: 0, a: 0, poly: P },
+          { caras: tapa, ox: lerp(2.15, 0, e), oy: lerp(0.35, 0, e), oz: lerp(0, FLOOR, e) + Math.sin(Math.PI * e) * 0.6, a: lerp(0.38, 0, e), poly: L }
+        ];
+
+        // sombra suave en el piso (solo se dibuja la sombra, no la silueta)
+        const BIG = 5000;
+        ctx.save();
+        ctx.shadowColor = "rgba(40,32,24,.5)"; ctx.shadowBlur = Math.max(10, ppu * 0.16) * dpr; ctx.shadowOffsetX = BIG * dpr;
+        ctx.fillStyle = "#000"; ctx.beginPath();
+        objetos.forEach(o => {
+          const ca = Math.cos(o.a), sa = Math.sin(o.a);
+          o.poly.forEach((v, i) => {
+            const q = proj(v[0] * ca - v[1] * sa + o.ox + 0.14, v[0] * sa + v[1] * ca + o.oy + 0.10, 0);
+            i ? ctx.lineTo(q[0] - BIG, q[1]) : ctx.moveTo(q[0] - BIG, q[1]);
+          });
+          ctx.closePath();
+        });
+        ctx.fill(); ctx.restore();
+
+        // caras visibles, ordenadas de lejos a cerca
+        const lista = [];
+        objetos.forEach(o => {
+          const ca = Math.cos(o.a), sa = Math.sin(o.a);
+          const to = (lx, ly, lz) => proj(lx * ca - ly * sa + o.ox, lx * sa + ly * ca + o.oy, lz + o.oz);
+          o.caras.forEach(f => {
+            const pts = f.p.map(v => to(v[0], v[1], v[2]));
+            const nx = f.n[0] * ca - f.n[1] * sa, ny = f.n[0] * sa + f.n[1] * ca, nz = f.n[2];
+            const nyr = nx * sn + ny * cs, NX = nx * cs - ny * sn, NY = nyr * sp + nz * cp, NZ = -nyr * cp + nz * sp;
+            const v0 = pts[0];
+            if (NX * -v0[2] + NY * -v0[3] + NZ * (D - v0[4]) <= 0) return;   // cara de atrás
+            const k = 0.5 + 0.5 * Math.max(0, nx * LUZ1[0] + ny * LUZ1[1] + nz * LUZ1[2]) + 0.15 * Math.max(0, nx * LUZ2[0] + ny * LUZ2[1] + nz * LUZ2[2]);
+            lista.push({ z: pts.reduce((t, q) => t + q[4], 0) / pts.length, pts, c: tono(col[f.tag], k), f, to });
+          });
+        });
+        lista.sort((a, b) => a.z - b.z);
+        ctx.lineJoin = "round";
+        lista.forEach(it => {
+          trazar(it.pts); ctx.closePath();
+          ctx.fillStyle = it.c; ctx.strokeStyle = it.c; ctx.lineWidth = 0.8; ctx.fill(); ctx.stroke();
+          if (it.f.decal) it.f.decal(it.to, ppu);
+        });
+      }
+
+      // ---- animación (solo corre cuando se ve en pantalla) ----
+      function pedir() { if (!raf && visible) raf = requestAnimationFrame(tick); }
+      function tick(ts) {
+        raf = 0;
+        const dt = Math.min(0.05, last ? (ts - last) / 1000 : 0.016); last = ts;
+        if (auto && !arrastrando) yaw += dt * 0.3;
+        const d = objetivo - cierre;
+        if (d) cierre = (reduce || Math.abs(d) < 0.002) ? objetivo : cierre + Math.sign(d) * Math.min(Math.abs(d), dt / 0.9);
+        dibujar();
+        if (visible && (auto || cierre !== objetivo)) raf = requestAnimationFrame(tick); else last = 0;
+      }
+      function medir() {
+        const r = cv.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = Math.round(r.width); H = Math.round(r.height);
+        cv.width = W * dpr; cv.height = H * dpr;
+        dibujar(); pedir();
+      }
+      if ("ResizeObserver" in window) new ResizeObserver(medir).observe(cv); else window.addEventListener("resize", medir);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) pedir(); }).observe(cv);
+      } else { visible = true; }
+      medir();
+
+      // ---- girar con el dedo/mouse o con las flechas ----
+      let px = 0, py = 0;
+      cv.addEventListener("pointerdown", e => { arrastrando = true; auto = false; px = e.clientX; py = e.clientY; cv.setPointerCapture(e.pointerId); });
+      cv.addEventListener("pointermove", e => {
+        if (!arrastrando) return;
+        yaw += (e.clientX - px) * 0.012;
+        if (e.pointerType === "mouse") pitch = clamp(pitch + (e.clientY - py) * 0.008, 0.35, 1.45);
+        px = e.clientX; py = e.clientY; dibujar();
+      });
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(ev => cv.addEventListener(ev, () => { arrastrando = false; }));
+      cv.addEventListener("keydown", e => {
+        const m = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.08], ArrowDown: [0, 0.08] }[e.key];
+        if (!m) return;
+        e.preventDefault(); auto = false; yaw += m[0]; pitch = clamp(pitch + m[1], 0.35, 1.45); dibujar();
+      });
+
+      // ---- colores, resumen y botón de cotizar ----
+      const swBase = document.getElementById("swBase"), swTapa = document.getElementById("swTapa");
+      function crear(cont, cual) {
+        COLORES.forEach(([nombre, hex], i) => {
+          const b = document.createElement("button");
+          b.type = "button"; b.className = "sw"; b.style.background = hex; b.title = nombre; b.setAttribute("aria-label", nombre);
+          b.addEventListener("click", () => { if (cual === "base") iBase = i; else iTapa = i; actualizar(); });
+          cont.append(b);
+        });
+      }
+      function actualizar() {
+        col.base = rgbDe(COLORES[iBase][1]); col.tapa = rgbDe(COLORES[iTapa][1]);
+        [...swBase.children].forEach((b, i) => b.setAttribute("aria-pressed", i === iBase));
+        [...swTapa.children].forEach((b, i) => b.setAttribute("aria-pressed", i === iTapa));
+        const nb = COLORES[iBase][0], nt = COLORES[iTapa][0];
+        const negrita = t => Object.assign(document.createElement("b"), { textContent: t });
+        document.getElementById("resumen").replaceChildren("Base ", negrita(nb), " · Tapa ", negrita(nt));
+        const msg = nb === nt ? "Hola, quiero cotizar una placa NFC en color " + nb + "." : "Hola, quiero cotizar una placa NFC con base " + nb + " y tapa " + nt + ".";
+        document.getElementById("btnCotizar").href = WA + "?text=" + encodeURIComponent(msg);
+        cv.setAttribute("aria-label", "Vista 3D de la placa: base " + nb + ", tapa " + nt);
+        dibujar(); pedir();
+      }
+      crear(swBase, "base"); crear(swTapa, "tapa");
+      document.getElementById("btnSwap").addEventListener("click", () => { [iBase, iTapa] = [iTapa, iBase]; actualizar(); });
+      const btnTapa = document.getElementById("btnTapa");
+      btnTapa.addEventListener("click", () => {
+        objetivo = objetivo ? 0 : 1;
+        btnTapa.textContent = objetivo ? "Abrir placa" : "Cerrar placa";
+        pedir();
+      });
+      actualizar();
+    })();
 
     // Celular de demo
     const btn = document.getElementById("probar"), tel = document.getElementById("telefono");
