@@ -115,6 +115,13 @@
     .garantias li::before { content: "✓ "; font-weight: 800; color: var(--texto); }
     .sub { font-size: 1.3rem; font-weight: 800; margin: 56px 0 20px; }
 
+    /* COLORES */
+    .colores { margin-top: 28px; }
+    .colores h3 { font-size: 1rem; font-weight: 400; color: var(--suave); margin-bottom: 12px; }
+    .chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip { display: flex; align-items: center; gap: 8px; border: 1px solid var(--linea); border-radius: 999px; padding: 6px 14px 6px 8px; font-size: .9rem; }
+    .chip i { display: block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); }
+
     /* LÍNEA DE TIEMPO */
     .linea { list-style: none; padding: 0; counter-reset: hito; }
     .hito { counter-increment: hito; position: relative; margin-left: 12px; padding: 0 0 32px 44px; border-left: 1px solid var(--linea); }
@@ -301,6 +308,10 @@
           <li><span>Celulares</span><span>iPhone y Android</span></li>
           <li><span>Hecha en</span><span>Viña del Mar, Chile</span></li>
         </ul>
+        <div class="colores">
+          <h3>Colores disponibles</h3>
+          <ul class="chips" id="colores"></ul>
+        </div>
         <p class="nota">El PLA es un plástico de origen vegetal, ideal para uso en interior. Se deforma con calor, así que no la dejes al sol directo ni dentro de un auto.</p>
       </div>
       <figure class="foto rev">
@@ -390,17 +401,37 @@
   </footer>
 
   <script>
-    // ===== CAMBIA SOLO ESTAS DOS LÍNEAS =====
+    // ===== AQUÍ CAMBIAS TUS DATOS =====
     // 1) WhatsApp: código de Chile 56 + tu número, sin espacios ni +
     const WA = "https://wa.me/569XXXXXXXX";
     // 2) Precio del Pack NFC como quieres que se vea (ej: "$14.990"). Vacío = muestra "Consultar precio"
     const PRECIO = "";
+    // 3) Colores disponibles: una línea por color ["Nombre", "#código"]. Para agregar uno, copia una línea y cámbiala
+    const COLORES = [
+      ["Negro", "#2d2f31"],
+      ["Blanco", "#e7e4df"],
+      ["Azul marino", "#2f364c"],
+      ["Gris", "#535659"],
+      ["Rojo", "#bf292a"],
+      ["Verde oliva", "#4d563e"],
+      ["Celeste", "#7dafd5"],
+      ["Verde menta", "#94cda6"],
+      ["Naranja", "#dc6104"]
+    ];
     // =========================================
 
     document.querySelectorAll("[data-wa]").forEach(a => {
       a.href = WA + "?text=" + encodeURIComponent(a.dataset.wa);
     });
     document.querySelectorAll("[data-precio]").forEach(el => { if (PRECIO) el.textContent = PRECIO; });
+
+    // Colores disponibles
+    const listaColores = document.getElementById("colores");
+    COLORES.forEach(([nombre, hex]) => {
+      const li = document.createElement("li"); li.className = "chip";
+      const punto = document.createElement("i"); punto.style.background = hex;
+      li.append(punto, nombre); listaColores.append(li);
+    });
 
     // Celular de demo
     const btn = document.getElementById("probar"), tel = document.getElementById("telefono");
