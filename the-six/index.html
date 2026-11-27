@@ -11,16 +11,17 @@
   <title>THE SIX | Barbería</title>
 
   <style>
-    /* =========================
-       1. CONFIGURACIÓN GENERAL
-    ========================== */
+    /* =================================
+       1. VARIABLES Y CONFIGURACIÓN
+    ================================= */
 
     :root {
-      --black: #111111;
+      --black: #101010;
       --white: #ffffff;
       --yellow: #f5b800;
       --grey: #b8b8b8;
-      --surface: rgba(20, 20, 20, 0.72);
+      --surface: rgba(18,18,18,.76);
+      --ease: cubic-bezier(.22,1,.36,1);
     }
 
     * {
@@ -36,29 +37,62 @@
     body {
       min-height: 100vh;
       min-height: 100svh;
-      padding: 58px 22px 30px;
+      padding: 55px 22px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden;
 
       color: var(--white);
+      background-color: var(--black);
+
       font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* =================================
+       2. FONDO CINEMATOGRÁFICO
+    ================================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -5%;
+      z-index: -2;
+
+      background:
+        url("fondo.jpg.jpeg") center center / cover no-repeat;
+
+      animation: fondoMovimiento 28s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
 
       background:
         linear-gradient(
           180deg,
-          rgba(0,0,0,.62) 0%,
-          rgba(0,0,0,.76) 45%,
-          rgba(0,0,0,.93) 100%
-        ),
-        url("fondo.jpg.jpeg") center center / cover fixed no-repeat;
-
-      background-color: var(--black);
+          rgba(0,0,0,.58) 0%,
+          rgba(0,0,0,.75) 45%,
+          rgba(0,0,0,.94) 100%
+        );
     }
 
-    /* =========================
-       2. CONTENEDOR PRINCIPAL
-    ========================== */
+    @keyframes fondoMovimiento {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.12);
+      }
+    }
+
+    /* =================================
+       3. CONTENEDOR
+    ================================= */
 
     .contenedor {
       width: 100%;
@@ -68,13 +102,15 @@
       align-items: center;
     }
 
-    /* =========================
-       3. IDENTIDAD DE MARCA
-    ========================== */
+    /* =================================
+       4. IDENTIDAD THE SIX
+    ================================= */
 
     .marca {
       text-align: center;
-      margin-bottom: 22px;
+      margin-bottom: 23px;
+      opacity: 0;
+      animation: entradaMarca 1s var(--ease) .15s forwards;
     }
 
     h1 {
@@ -93,15 +129,35 @@
     }
 
     .linea {
-      width: 38px;
+      width: 40px;
       height: 2px;
+      margin: 20px auto 0;
       background: var(--yellow);
-      margin: 19px auto 0;
+      transform: scaleX(0);
+      transform-origin: center;
+      animation: dibujarLinea .8s ease 1s forwards;
     }
 
-    /* =========================
-       4. ESTADO DEL LOCAL
-    ========================== */
+    @keyframes entradaMarca {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes dibujarLinea {
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    /* =================================
+       5. ESTADO DEL LOCAL
+    ================================= */
 
     .estado {
       display: inline-flex;
@@ -112,11 +168,12 @@
 
       border: 1px solid rgba(255,255,255,.24);
       border-radius: 50px;
-      background: rgba(0,0,0,.28);
+      background: rgba(0,0,0,.35);
 
-      color: #eeeeee;
+      color: #eee;
       font-size: .78rem;
-      letter-spacing: .4px;
+      opacity: 0;
+      animation: aparecer .8s var(--ease) .55s forwards;
     }
 
     .estado::before {
@@ -124,32 +181,47 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #888888;
+      background: #888;
     }
 
     .estado.on::before {
       background: #39d98a;
-      box-shadow: 0 0 9px rgba(57,217,138,.6);
+      box-shadow: 0 0 10px rgba(57,217,138,.6);
+      animation: pulso 2s infinite;
     }
 
     .estado.off::before {
       background: #ff5b5b;
     }
 
-    /* =========================
-       5. INFORMACIÓN
-    ========================== */
+    @keyframes pulso {
+      50% {
+        box-shadow: 0 0 3px rgba(57,217,138,.2);
+      }
+    }
+
+    /* =================================
+       6. INFORMACIÓN
+    ================================= */
 
     .info {
       width: 100%;
       padding: 21px 20px 7px;
-      margin-bottom: 22px;
+      margin-bottom: 23px;
 
-      border: 1px solid rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 16px;
+
       background: var(--surface);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      transition:
+        transform .35s ease,
+        border-color .35s ease,
+        background .35s ease;
+
+      opacity: 0;
     }
 
     .fila {
@@ -158,7 +230,7 @@
       gap: 15px;
       margin-bottom: 19px;
 
-      color: #eeeeee;
+      color: #eee;
       font-size: .9rem;
       line-height: 1.55;
     }
@@ -181,9 +253,9 @@
       letter-spacing: 2px;
     }
 
-    /* =========================
-       6. ICONOS
-    ========================== */
+    /* =================================
+       7. ICONOS
+    ================================= */
 
     .ic {
       width: 20px;
@@ -197,9 +269,9 @@
       stroke-linejoin: round;
     }
 
-    /* =========================
-       7. BOTONES
-    ========================== */
+    /* =================================
+       8. BOTONES
+    ================================= */
 
     .acciones {
       width: 100%;
@@ -210,20 +282,23 @@
 
     .btn {
       position: relative;
+      isolation: isolate;
+      overflow: hidden;
+
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 11px;
 
       width: 100%;
-      min-height: 55px;
+      min-height: 56px;
       padding: 15px 18px;
 
       border: 1px solid rgba(255,255,255,.65);
       border-radius: 12px;
 
       color: var(--white);
-      background: rgba(15,15,15,.55);
+      background: rgba(15,15,15,.62);
 
       font-size: .82rem;
       font-weight: 700;
@@ -231,17 +306,18 @@
       text-decoration: none;
       text-align: center;
 
+      opacity: 0;
       transition:
-        transform .22s ease,
-        background-color .22s ease,
-        color .22s ease,
-        border-color .22s ease,
-        box-shadow .22s ease;
+        transform .3s var(--ease),
+        background .3s ease,
+        color .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
     }
 
     .btn.main {
-      min-height: 58px;
-      color: #111111;
+      min-height: 59px;
+      color: #111;
       background: var(--yellow);
       border-color: var(--yellow);
     }
@@ -249,23 +325,55 @@
     .btn .ic {
       width: 19px;
       height: 19px;
+      transition: transform .3s var(--ease);
     }
 
-    /* Efectos para computador */
+    /* Reflejo que cruza el botón */
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -120%;
+      z-index: -1;
+
+      width: 65%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.17),
+        transparent
+      );
+
+      transform: skewX(-20deg);
+      transition: left .65s ease;
+    }
 
     @media (hover: hover) {
+      .btn:hover {
+        transform: translateY(-3px);
+      }
+
+      .btn:hover::before {
+        left: 150%;
+      }
+
       .btn:not(.main):hover {
-        color: #111111;
-        background: #ffffff;
-        border-color: #ffffff;
-        transform: translateY(-2px);
+        color: #111;
+        background: #fff;
+        border-color: #fff;
+        box-shadow: 0 8px 24px rgba(0,0,0,.2);
       }
 
       .btn.main:hover {
         background: #ffd04a;
         border-color: #ffd04a;
-        transform: translateY(-2px);
-        box-shadow: 0 7px 20px rgba(245,184,0,.16);
+        box-shadow: 0 8px 25px rgba(245,184,0,.23);
+      }
+
+      .btn:hover .ic {
+        transform: translateY(-2px) scale(1.08);
       }
     }
 
@@ -278,9 +386,9 @@
       outline-offset: 4px;
     }
 
-    /* =========================
-       8. PIE DE PÁGINA
-    ========================== */
+    /* =================================
+       9. PIE DE PÁGINA
+    ================================= */
 
     .footer {
       margin-top: 32px;
@@ -294,40 +402,61 @@
       color: var(--yellow);
     }
 
-    /* =========================
-       9. ANIMACIONES
-    ========================== */
+    /* =================================
+       10. ANIMACIONES DE ENTRADA
+    ================================= */
 
-    .anim {
+    .revelar {
       opacity: 0;
-      animation: aparecer .75s cubic-bezier(.22, 1, .36, 1) both;
-      animation-delay: calc(var(--i) * .09s);
+      transform: translateY(22px);
+      transition:
+        opacity .8s var(--ease),
+        transform .8s var(--ease);
+    }
+
+    .revelar.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .acciones .btn:nth-child(1) {
+      transition-delay: .05s;
+    }
+
+    .acciones .btn:nth-child(2) {
+      transition-delay: .12s;
+    }
+
+    .acciones .btn:nth-child(3) {
+      transition-delay: .19s;
+    }
+
+    .acciones .btn:nth-child(4) {
+      transition-delay: .26s;
+    }
+
+    .acciones .btn:nth-child(5) {
+      transition-delay: .33s;
     }
 
     @keyframes aparecer {
       from {
         opacity: 0;
-        transform: translateY(16px);
+        transform: translateY(15px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    /* =========================
-       10. ADAPTACIÓN A CELULARES
-    ========================== */
+    /* =================================
+       11. RESPONSIVE
+    ================================= */
 
     @media (max-width: 480px) {
       body {
         padding: 45px 20px 25px;
-        background-attachment: scroll;
-      }
-
-      .contenedor {
-        max-width: 390px;
       }
 
       .info {
@@ -338,8 +467,6 @@
         min-height: 54px;
       }
     }
-
-    /* Pantallas pequeñas */
 
     @media (max-width: 360px) {
       body {
@@ -356,22 +483,26 @@
       }
     }
 
-    /* Accesibilidad */
+    /* =================================
+       12. ACCESIBILIDAD
+    ================================= */
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
       }
 
-      .anim {
+      .revelar {
         opacity: 1;
-        animation: none;
-      }
-
-      .btn {
-        transition: none;
+        transform: none;
       }
     }
+
   </style>
 </head>
 
@@ -379,30 +510,25 @@
 
   <main class="contenedor">
 
-    <!-- IDENTIDAD -->
+    <!-- MARCA -->
 
-    <header class="marca anim" style="--i:0">
+    <header class="marca">
       <h1>THE SIX</h1>
       <p class="subtitulo">BARBERÍA</p>
       <div class="linea"></div>
     </header>
 
-    <!-- ESTADO DEL LOCAL -->
+    <!-- ESTADO -->
 
-    <div
-      id="estado"
-      class="estado anim"
-      style="--i:1"
-      aria-live="polite"
-    >
+    <div id="estado" class="estado" aria-live="polite">
       Comprobando horario...
     </div>
 
     <!-- INFORMACIÓN -->
 
-    <section class="info" aria-label="Información de la barbería">
+    <section class="info revelar" aria-label="Información de la barbería">
 
-      <div class="fila anim" style="--i:2">
+      <div class="fila">
         <svg class="ic" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="9"/>
           <path d="M12 7v5l3 2"/>
@@ -410,12 +536,12 @@
 
         <div>
           <b>HORARIO</b>
-          Lunes a sábado · 10:00 – 21:00<br>
+          Lunes a sábado · 10:00 – 20:00<br>
           Domingo cerrado
         </div>
       </div>
 
-      <div class="fila anim" style="--i:3">
+      <div class="fila">
         <svg class="ic" viewBox="0 0 24 24">
           <circle cx="6" cy="6" r="3"/>
           <circle cx="6" cy="18" r="3"/>
@@ -426,11 +552,11 @@
 
         <div>
           <b>SERVICIOS</b>
-          Cortes, barba y afeitado con navaja
+          Cortes, fade, barba y afeitado con navaja
         </div>
       </div>
 
-      <div class="fila anim" style="--i:4">
+      <div class="fila">
         <svg class="ic" viewBox="0 0 24 24">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
           <circle cx="12" cy="10" r="3"/>
@@ -438,21 +564,20 @@
 
         <div>
           <b>DIRECCIÓN</b>
-          Paradero 6
+          PON_AQUI_LA_DIRECCION
         </div>
       </div>
 
     </section>
 
-    <!-- BOTONES DE ACCIÓN -->
+    <!-- ACCIONES -->
 
     <nav class="acciones" aria-label="Acciones de THE SIX">
 
       <!-- RESERVAR -->
 
       <a
-        class="btn main anim"
-        style="--i:5"
+        class="btn main revelar"
         href="PEGA_TU_LINK_DE_WHATSAPP"
         target="_blank"
         rel="noopener noreferrer"
@@ -466,12 +591,11 @@
         RESERVAR HORA
       </a>
 
-      <!-- UBICACIÓN -->
+      <!-- MAPS -->
 
       <a
-        class="btn anim"
-        style="--i:6"
-        href="https://www.google.com/maps?svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&um=1&ie=UTF-8&fb=1&sa=X&geocode=KWHRMv9Z34mWMU9agw_f05d6&daddr=2520000+Viña+del+Mar,+Valparaíso"
+        class="btn revelar"
+        href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -484,8 +608,7 @@
       <!-- INSTAGRAM -->
 
       <a
-        class="btn anim"
-        style="--i:7"
+        class="btn revelar"
         href="PEGA_TU_LINK_DE_INSTAGRAM"
         target="_blank"
         rel="noopener noreferrer"
@@ -501,9 +624,8 @@
       <!-- GOOGLE -->
 
       <a
-        class="btn anim"
-        style="--i:8"
-        href="https://www.google.com/searchviewer/10?output=search&svid=CCYSGioYOhYweDA6MHg3YTk3ZDNkZjBmODM1YTRmGAo&hl=es&gl=CL&sei=E37_aqsd8tnk5Q_IouapAQ&fbclid=PAVERFWAVsXWZleHRuA2FlbQIxMABwZG9mAmZkaWQWUSglZlPd2EsMOEugaf86ty8jK-JFZ3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2aKWc7nxc7j7dofaGwDEdgB_9J9HfEvhQncM2wqVXIH2NEAqseGZTZ8Ub_U_aem_cs8JN1wrVaAYZ39Mkcg-cg"
+        class="btn revelar"
+        href="PEGA_TU_LINK_DE_RESEÑAS_DE_GOOGLE"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -516,8 +638,7 @@
       <!-- LLAMAR -->
 
       <a
-        class="btn anim"
-        style="--i:9"
+        class="btn revelar"
         href="tel:+569XXXXXXXX"
       >
         <svg class="ic" viewBox="0 0 24 24">
@@ -528,18 +649,24 @@
 
     </nav>
 
-    <!-- PIE DE PÁGINA -->
+    <!-- FOOTER -->
 
-    <footer class="footer anim" style="--i:10">
+    <footer class="footer revelar">
       <p>THE SIX <span>·</span> BARBERÍA</p>
     </footer>
 
   </main>
 
-  <!-- JAVASCRIPT: HORARIO -->
+  <!-- =================================
+       JAVASCRIPT
+  ================================== -->
 
   <script>
+
+    /* HORARIO AUTOMÁTICO */
+
     function actualizarEstado() {
+
       const partes = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Santiago",
         weekday: "short",
@@ -558,6 +685,7 @@
       const minutosDelDia = hora * 60 + minutos;
 
       const esDomingo = dia === "Sun";
+
       const abierto =
         !esDomingo &&
         minutosDelDia >= 600 &&
@@ -575,6 +703,41 @@
 
     actualizarEstado();
     setInterval(actualizarEstado, 60000);
+
+
+    /* APARICIÓN AL DESPLAZARSE */
+
+    const elementos = document.querySelectorAll(".revelar");
+
+    if ("IntersectionObserver" in window) {
+
+      const observador = new IntersectionObserver((entradas, observer) => {
+
+        entradas.forEach(entrada => {
+
+          if (entrada.isIntersecting) {
+            entrada.target.classList.add("visible");
+            observer.unobserve(entrada.target);
+          }
+
+        });
+
+      }, {
+        threshold: 0.12
+      });
+
+      elementos.forEach(elemento => {
+        observador.observe(elemento);
+      });
+
+    } else {
+
+      elementos.forEach(elemento => {
+        elemento.classList.add("visible");
+      });
+
+    }
+
   </script>
 
 </body>
