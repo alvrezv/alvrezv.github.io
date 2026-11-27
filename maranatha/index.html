@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101010">
+  <meta name="description" content="Frutería Maranatha. Frutas y verduras frescas. Horarios, ubicación y pedidos por WhatsApp.">
+  <title>FRUTERÍA MARANATHA</title>
+
+  <style>
+    :root {
+      --black: #101010;
+      --white: #ffffff;
+      --acento: #8bd450;
+      --acento-claro: #a6e46f;
+      --surface: rgba(18,18,18,.76);
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 55px 22px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      color: var(--white);
+      background-color: var(--black);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* FONDO */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -5%;
+      z-index: -2;
+      background: url("fondo.jpg") center center / cover no-repeat;
+      animation: fondoMovimiento 28s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.75) 45%, rgba(0,0,0,.94) 100%);
+    }
+    @keyframes fondoMovimiento { from { transform: scale(1); } to { transform: scale(1.12); } }
+
+    .contenedor { width: 100%; max-width: 390px; display: flex; flex-direction: column; align-items: center; }
+
+    /* MARCA */
+    .marca { text-align: center; margin-bottom: 23px; opacity: 0; animation: entradaMarca 1s var(--ease) .15s forwards; }
+    h1 { font-size: clamp(2.2rem, 10vw, 3rem); font-weight: 900; letter-spacing: 3px; line-height: 1.05; }
+    .subtitulo { color: var(--acento); font-size: .74rem; font-weight: 700; letter-spacing: 4px; margin-top: 12px; }
+    .linea { width: 40px; height: 2px; margin: 20px auto 0; background: var(--acento); transform: scaleX(0); transform-origin: center; animation: dibujarLinea .8s ease 1s forwards; }
+    @keyframes entradaMarca { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes dibujarLinea { to { transform: scaleX(1); } }
+
+    /* ESTADO */
+    .estado {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 8px 15px; margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,.24); border-radius: 50px;
+      background: rgba(0,0,0,.35); color: #eee; font-size: .78rem;
+      opacity: 0; animation: aparecer .8s var(--ease) .55s forwards;
+    }
+    .estado::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #888; }
+    .estado.on::before { background: #39d98a; box-shadow: 0 0 10px rgba(57,217,138,.6); animation: pulso 2s infinite; }
+    .estado.off::before { background: #ff5b5b; }
+    @keyframes pulso { 50% { box-shadow: 0 0 3px rgba(57,217,138,.2); } }
+
+    /* INFO */
+    .info {
+      width: 100%; padding: 21px 20px 7px; margin-bottom: 23px;
+      border: 1px solid rgba(255,255,255,.14); border-radius: 16px;
+      background: var(--surface);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+    }
+    .fila { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 19px; color: #eee; font-size: .9rem; line-height: 1.55; }
+    .fila:last-child { margin-bottom: 13px; }
+    .fila .ic { color: var(--acento); margin-top: 3px; }
+    .fila b { display: block; margin-bottom: 4px; color: var(--acento); font-size: .68rem; letter-spacing: 2px; }
+
+    .ic { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* BOTONES */
+    .acciones { width: 100%; display: flex; flex-direction: column; gap: 11px; }
+    .btn {
+      position: relative; isolation: isolate; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; gap: 11px;
+      width: 100%; min-height: 56px; padding: 15px 18px;
+      border: 1px solid rgba(255,255,255,.65); border-radius: 12px;
+      color: var(--white); background: rgba(15,15,15,.62);
+      font-size: .82rem; font-weight: 700; letter-spacing: 1.3px;
+      text-decoration: none; text-align: center; opacity: 0;
+      transition: transform .3s var(--ease), background .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .btn.main { min-height: 59px; color: #111; background: var(--acento); border-color: var(--acento); }
+    .btn .ic { width: 19px; height: 19px; transition: transform .3s var(--ease); }
+    .btn::before {
+      content: ""; position: absolute; top: 0; bottom: 0; left: -120%; z-index: -1; width: 65%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.17), transparent);
+      transform: skewX(-20deg); transition: left .65s ease;
+    }
+    @media (hover: hover) {
+      .btn:hover { transform: translateY(-3px); }
+      .btn:hover::before { left: 150%; }
+      .btn:not(.main):hover { color: #111; background: #fff; border-color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+      .btn.main:hover { background: var(--acento-claro); border-color: var(--acento-claro); box-shadow: 0 8px 25px rgba(139,212,80,.25); }
+      .btn:hover .ic { transform: translateY(-2px) scale(1.08); }
+    }
+    .btn:active { transform: scale(.98); }
+    .btn:focus-visible { outline: 3px solid var(--acento); outline-offset: 4px; }
+
+    /* FOOTER */
+    .footer { margin-top: 32px; text-align: center; color: rgba(255,255,255,.55); font-size: .68rem; letter-spacing: 1.5px; }
+    .footer span { color: var(--acento); }
+
+    /* ANIMACIONES */
+    .revelar { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .revelar.visible { opacity: 1; transform: translateY(0); }
+    .acciones .btn:nth-child(1) { transition-delay: .05s; }
+    .acciones .btn:nth-child(2) { transition-delay: .12s; }
+    .acciones .btn:nth-child(3) { transition-delay: .19s; }
+    .acciones .btn:nth-child(4) { transition-delay: .26s; }
+    @keyframes aparecer { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) { body { padding: 45px 20px 25px; } .info { padding: 19px 17px 5px; } .btn { min-height: 54px; } }
+    @media (max-width: 360px) { body { padding-left: 15px; padding-right: 15px; } .fila { font-size: .84rem; } .btn { font-size: .76rem; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .revelar { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="contenedor">
+
+    <header class="marca">
+      <h1>FRUTERÍA<br>MARANATHA</h1>
+      <p class="subtitulo">FRUTERÍA Y VERDULERÍA</p>
+      <div class="linea"></div>
+    </header>
+
+    <div id="estado" class="estado" aria-live="polite">Comprobando horario...</div>
+
+    <section class="info revelar" aria-label="Información de la frutería">
+
+      <div class="fila">
+        <svg class="ic" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+        <div>
+          <b>HORARIO</b>
+          Lunes a sábado · PONER_HORA – PONER_HORA<br>
+          Domingo · PONER_HORARIO_O_CERRADO
+        </div>
+      </div>
+
+      <div class="fila">
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <div>
+          <b>DIRECCIÓN</b>
+          PONER_DIRECCION_ESCRITA
+        </div>
+      </div>
+
+    </section>
+
+    <nav class="acciones" aria-label="Acciones de Frutería Maranatha">
+
+      <a class="btn main revelar" href="https://wa.me/56983301251?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer">
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/>
+        </svg>
+        HACER UN PEDIDO
+      </a>
+
+      <a class="btn revelar" href="PEGA_LINK_GOOGLE_MAPS" target="_blank" rel="noopener noreferrer">
+        <svg class="ic" viewBox="0 0 24 24">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+        </svg>
+        CÓMO LLEGAR
+      </a>
+
+      <a class="btn revelar" href="PEGA_LINK_INSTAGRAM" target="_blank" rel="noopener noreferrer">
+        <svg class="ic" viewBox="0 0 24 24">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        INSTAGRAM
+      </a>
+
+      <a class="btn revelar" href="tel:+56983301251">
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        LLAMAR
+      </a>
+
+    </nav>
+
+    <footer class="footer revelar">
+      <p>FRUTERÍA MARANATHA <span>·</span> FRUTAS Y VERDURAS</p>
+    </footer>
+
+  </main>
+
+  <script>
+    /* HORARIO AUTOMÁTICO
+       Se cambia aquí: [apertura, cierre] en formato "HH:MM". null = cerrado ese día. */
+    const HORARIO = {
+      Mon: ["09:00", "20:00"],
+      Tue: ["09:00", "20:00"],
+      Wed: ["09:00", "20:00"],
+      Thu: ["09:00", "20:00"],
+      Fri: ["09:00", "20:00"],
+      Sat: ["09:00", "20:00"],
+      Sun: null
+    };
+
+    const aMinutos = t => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+
+    function actualizarEstado() {
+      const partes = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Santiago",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+      }).formatToParts(new Date());
+
+      const obtener = tipo => partes.find(p => p.type === tipo)?.value;
+      const dia = obtener("weekday");
+      const ahora = Number(obtener("hour")) * 60 + Number(obtener("minute"));
+
+      const turno = HORARIO[dia];
+      const abierto = !!turno && ahora >= aMinutos(turno[0]) && ahora < aMinutos(turno[1]);
+
+      const estado = document.getElementById("estado");
+      estado.textContent = abierto ? "Abierto ahora" : "Cerrado ahora";
+      estado.classList.toggle("on", abierto);
+      estado.classList.toggle("off", !abierto);
+    }
+
+    actualizarEstado();
+    setInterval(actualizarEstado, 60000);
+
+    /* APARICIÓN AL DESPLAZARSE */
+    const elementos = document.querySelectorAll(".revelar");
+    if ("IntersectionObserver" in window) {
+      const observador = new IntersectionObserver((entradas, observer) => {
+        entradas.forEach(entrada => {
+          if (entrada.isIntersecting) {
+            entrada.target.classList.add("visible");
+            observer.unobserve(entrada.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      elementos.forEach(el => observador.observe(el));
+    } else {
+      elementos.forEach(el => el.classList.add("visible"));
+    }
+  </script>
+</body>
+</html>
