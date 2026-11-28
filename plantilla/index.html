@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tu Negocio</title>
+<style>
+:root{--fondo:#111;--texto:#fff;--acento:#f5c400}
+*{box-sizing:border-box;margin:0}
+body{background:var(--fondo);color:var(--texto);font-family:system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:40px 20px}
+main{width:100%;max-width:420px;text-align:center}
+h1{font-size:2rem;letter-spacing:.04em;text-transform:uppercase}
+.frase{opacity:.7;margin:8px 0 28px}
+a.op{display:flex;justify-content:space-between;padding:16px 18px;margin-bottom:12px;border:1px solid #fff3;border-radius:14px;color:inherit;text-decoration:none;font-weight:600}
+a.op:hover,a.op:active{border-color:var(--acento);color:var(--acento)}
+.horario{margin-top:24px;font-size:.9rem;opacity:.7;white-space:pre-line}
+footer{margin-top:32px;font-size:.75rem;opacity:.4;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="nombre"></h1>
+  <p class="frase" id="frase"></p>
+  <div id="opciones"></div>
+  <p class="horario" id="horario"></p>
+  <footer>NOTNAME</footer>
+</main>
+<script>
+/* ====== EDITA SOLO ESTE BLOQUE POR CADA CLIENTE ====== */
+const N = {
+  nombre: "Tu Negocio",
+  frase: "Una frase corta que lo explique",
+  acento: "#f5c400",
+  fondo: "#111111",
+  horario: "Lun a Sáb 10:00 - 20:00\nDom cerrado",
 
+  // Deja "" en lo que no uses. Se muestran en este orden:
+  whatsapp: "56912345678",          // solo números, con código de país
+  menu: "",                          // link o PDF de la carta
+  reservas: "",                      // link de reservas
+  pedidos: "",                       // link de pedidos
+  instagram: "tunegocio",            // sin @
+  telefono: "+56912345678",
+  ubicacion: "",                     // link de Google Maps
+  waze: "",                          // link de Waze
+  web: "",                           // sitio web
+  correo: ""
+};
+/* ====== FIN DEL BLOQUE ====== */
+
+const T = {
+  whatsapp:  ["Escríbenos por WhatsApp", v => "https://wa.me/" + v],
+  menu:      ["Ver carta / menú",        v => v],
+  reservas:  ["Reservar",                v => v],
+  pedidos:   ["Hacer un pedido",         v => v],
+  instagram: ["Instagram",               v => "https://instagram.com/" + v],
+  telefono:  ["Llamar",                  v => "tel:" + v],
+  ubicacion: ["Cómo llegar (Maps)",      v => v],
+  waze:      ["Cómo llegar (Waze)",      v => v],
+  web:       ["Sitio web",               v => v],
+  correo:    ["Correo",                  v => "mailto:" + v]
+};
+
+document.title = N.nombre;
+document.documentElement.style.setProperty("--acento", N.acento);
+document.documentElement.style.setProperty("--fondo", N.fondo);
+document.getElementById("nombre").textContent = N.nombre;
+document.getElementById("frase").textContent = N.frase;
+document.getElementById("horario").textContent = N.horario;
+
+const cont = document.getElementById("opciones");
+for (const k in T) {
+  if (!N[k]) continue;
+  const a = document.createElement("a");
+  a.className = "op";
+  a.href = T[k][1](N[k]);
+  if (a.href.startsWith("http")) a.target = "_blank";
+  a.innerHTML = "<span>" + T[k][0] + "</span><span>→</span>";
+  cont.appendChild(a);
+}
+</script>
+</body>
+</html>
